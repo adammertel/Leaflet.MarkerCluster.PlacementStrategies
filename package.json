@@ -1,0 +1,33 @@
+{
+  "name": "leaflet.markercluster.placementstrategies",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "leaflet",
+    "markercluster",
+    "element",
+    "placement",
+    "clustering",
+    "subplugin"
+  ],
+  "author": "Adam Mertel, University of Vienna",
+  "license": "ISC",
+
+  "devDependencies": {
+    "jshint": "^2.9.3",
+    "parallelshell": "^2.0.0",
+    "uglify-js": "^2.7.3"
+  },
+  "scripts": {
+    "jshint": "jshint src",
+    "concat-js": "uglifyjs \"src/*.js\" -o dist/leaflet-markercluster.placementstrategies.src.js -b",
+    "minify-js": "uglifyjs dist/leaflet-markercluster.placementstrategies.src.js -o dist/leaflet-markercluster.placementstrategies.js -c -m",
+    "onchange-js": "onchange src/**/*.js -- npm run build",
+    "build": "parallelshell \"npm run jshint\" \"npm run concat-js\" \"npm run minify-js\" ",
+    "start": "parallelshell \"npm run onchange-js\" \"npm run build\" "
+  }
+}

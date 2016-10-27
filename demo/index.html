@@ -1,0 +1,120 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-16">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.1/leaflet.js"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.0.0-rc.1.0/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.0.0-rc.1.0/MarkerCluster.Default.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.0.0-rc.1.0/leaflet.markercluster.js"></script>
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+  <script src="../dist/leaflet-markercluster.placementstrategies.js"></script>
+  <script src="./doctors.js"></script>
+</head>
+
+<style>
+#map-content {
+  width: 100%;
+  height: 100%
+}
+
+.marker-cluster {
+  opacity: 1 !important
+}
+
+.active-cluster-element {
+  opacity: 0.2;
+}
+</style>
+
+
+<body>
+  <div id="map-content"></div>
+  <script>
+
+    // global variables
+    var map;
+
+    $( document ).ready(function(){
+
+
+
+      var colors = ['#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00'];
+
+      // setting map
+
+      map = L.map('map-content').setView([46.9, 12.5], 12);
+
+      L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
+
+      var markers = L.markerClusterGroup({
+        spiderLegPolylineOptions: {weight: 0},
+        clockHelpingCircleOptions: {weight: .7, opacity: 1, color: 'black', fillOpacity: 0, dashArray: '10 5'},
+
+        helpingCircles: true,
+        elementsPlacementStrategy: 'clock',
+
+        spiderfyDistanceSurplus: 25,
+        spiderfyDistanceMultiplier: 1,
+
+        elementsMultiplier: 1.4,
+        firstCircleElements: 10
+      });
+
+
+      // colorbrewer 2
+      var colorsTypes = {
+        'Allgemeinmedizin (Praktischer Arzt)': '#8dd3c7',
+        'Frauenheilkunde (Gyn�kologie) und Geburtshilfe': '#ffffb3',
+        'An�sthesiologie und Intensivmedizin': '#80b1d3',
+        'Arbeits- und Betriebsmedizin': '#fdb462',
+        'Augenheilkunde und Optometrie': '#b3de69',
+        'Blutgruppenserologie und Transfusionsmedizin': '#fdb462',
+        'Chirurgie': '#fb8072',
+        'Frauenheilkunde (Gyn�kologie) und Geburtshilfe': '#fb8072',
+        'Gerichtsmedizin': '#fccde5',
+        'Hals-, Nasen- und Ohrenkrankheiten (HNO)': '#d9d9d9',
+        'Haut- und Geschlechtskrankheiten': '#bc80bd',
+        'Histologie und Embryologie': '#ccebc5',
+        'Hygiene und Mikrobiologie': '#ccebc5',
+        'Immunologie': '#ccebc5',
+        'Innere Medizin': '#ffed6f'
+      }
+
+      var circleStyle = function(point) {
+        if (!colorsTypes[point.properties.type]) {
+          console.log(point.properties.type)
+        }
+
+        return {
+          fillColor: colorsTypes[point.properties.type],
+          radius : 8,
+          stroke: true,
+          color : 'black',
+          weight: 1.5,
+          opacity : 0.8,
+          fillOpacity : 0.8,
+          className: 'marker'
+        }
+      };
+
+      // Parse doctors data
+      for (var di in doctors.features) {
+        var doctor = doctors.features[di];
+
+        var circle = L.circleMarker([doctor.geometry.coordinates[1], doctor.geometry.coordinates[0]], circleStyle(doctor));
+        circle.bindPopup("<h3>" + doctor.properties.name + "</h3>" + "<p>" + doctor.properties.type + "</p>" + "<p>" + doctor.properties.address + "</p>");
+
+        markers.addLayer(circle);
+      }
+
+      map.addLayer(markers);
+    })
+  </script>
+</body>
+
+</html>
