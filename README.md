@@ -2,43 +2,42 @@
 ** subplugin for the [Leaflet.MarkerCluster](https://github.com/Leaflet/Leaflet.markercluster) that implements new possibilities how to place markers
 
 ### How to use:
- - 1. include Leaflet and Leaflet.MarkerCluster libraries:
+1. include Leaflet and Leaflet.MarkerCluster libraries:
+ ```
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.1/leaflet.js"></script>
 
-`<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />`
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.0.0-rc.1.0/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.0.0-rc.1.0/MarkerCluster.Default.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.0.0-rc.1.0/leaflet.markercluster.js"></script>
+ ```
 
-`<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.1/leaflet.js"></script>`
-
-`<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.0.0-rc.1.0/MarkerCluster.css" />`
-
-`<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.0.0-rc.1.0/MarkerCluster.Default.css" />`
-
-`<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.0.0-rc.1.0/leaflet.markercluster.js"></script>`
-
-- 2. download and include built: [leaflet-markercluster.placementstrategies.js](https://github.com/adammertel/Leaflet.MarkerCluster.PlacementStrategies/blob/master/dist/leaflet-markercluster.placementstrategies.js) or [leaflet-markercluster.placementstrategies.src.js]https://github.com/adammertel/Leaflet.MarkerCluster.PlacementStrategies/blob/master/dist/leaflet-markercluster.placementstrategies.src.js) file and also include it.
+2. download and include built: [leaflet-markercluster.placementstrategies.js](https://github.com/adammertel/Leaflet.MarkerCluster.PlacementStrategies/blob/master/dist/leaflet-markercluster.placementstrategies.js) or [leaflet-markercluster.placementstrategies.src.js]https://github.com/adammertel/Leaflet.MarkerCluster.PlacementStrategies/blob/master/dist/leaflet-markercluster.placementstrategies.src.js) file and also include it.
 
 
-- 3. create an L.markerClusterGroup instance, add markers and define placement strategy and othe options:
+3. create an L.markerClusterGroup instance, add markers and define placement strategy and othe options:
+ ```
+ var markers = L.markerClusterGroup({
+   spiderLegPolylineOptions: {weight: 0},
+   clockHelpingCircleOptions: {weight: .7, opacity: 1, color: 'black', fillOpacity: 0, dashArray: '10 5'},
 
-`var markers = L.markerClusterGroup({`
-  `spiderLegPolylineOptions: {weight: 0},`
-  `clockHelpingCircleOptions: {weight: .7, opacity: 1, color: 'black', fillOpacity: 0, dashArray: '10 5'},`
+   elementsPlacementStrategy: 'clock',
+   helpingCircles: true,
 
-  `elementsPlacementStrategy: 'clock',`
-  `helpingCircles: true,`
+   spiderfyDistanceSurplus: 25,
+   spiderfyDistanceMultiplier: 1,
 
-  `spiderfyDistanceSurplus: 25,`
-  `spiderfyDistanceMultiplier: 1,`
+   elementsMultiplier: 1.4,
+   firstCircleElements: fcircle
+ });
 
-  `elementsMultiplier: 1.4,`
-  `firstCircleElements: fcircle`
-`});`
+ for (var i = 0; i < 10000; i++) {
+   var circle = L.circleMarker([Math.random() * 30, Math.random() * 30], {fillOpacity: 0.7, radius: 8, fillColor: 'red', color: black'});
+   markers.addLayer(circle);
+ }
 
-`for (var i = 0; i < 10000; i++) {`
-  `var circle = L.circleMarker([Math.random() * 30, Math.random() * 30], {fillOpacity: 0.7, radius: 8, fillColor: 'red', color: 'black'});`
-  `markers.addLayer(circle);`
-`}`
-
-`map.addLayer(markers);`
+ map.addLayer(markers); 
+ ```
 
 ### Notes:
  - this subplugin was not tested with the animations turned on
