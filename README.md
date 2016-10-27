@@ -3,6 +3,7 @@
 
 ### How to use:
  - 1. include Leaflet and Leaflet.MarkerCluster libraries:
+
 `
  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.1/leaflet.js"></script>
@@ -16,6 +17,7 @@
 
 
 - 3. create an L.markerClusterGroup instance, add markers and define placement strategy and othe options:
+
 `
 var markers = L.markerClusterGroup({
   spiderLegPolylineOptions: {weight: 0},
