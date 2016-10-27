@@ -13,7 +13,7 @@
  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.0.0-rc.1.0/leaflet.markercluster.js"></script>
 ```
 
-2. download and include built: [leaflet-markercluster.placementstrategies.js](https://github.com/adammertel/Leaflet.MarkerCluster.PlacementStrategies/blob/master/dist/leaflet-markercluster.placementstrategies.js) or [leaflet-markercluster.placementstrategies.src.js]https://github.com/adammertel/Leaflet.MarkerCluster.PlacementStrategies/blob/master/dist/leaflet-markercluster.placementstrategies.src.js) file and also include it.
+2. download and include built  [leaflet-markercluster.placementstrategies.js](https://github.com/adammertel/Leaflet.MarkerCluster.PlacementStrategies/blob/master/dist/leaflet-markercluster.placementstrategies.js) or [leaflet-markercluster.placementstrategies.src.js](https://github.com/adammertel/Leaflet.MarkerCluster.PlacementStrategies/blob/master/dist/leaflet-markercluster.placementstrategies.src.js) file and also include it.
 
 
 3. create an L.markerClusterGroup instance, add markers and define placement strategy and othe options:
@@ -79,15 +79,15 @@ There is also another new type geometry called "helpingCircle" that could be use
 
 *Options that are valid for placement strategies 'concentric', 'clock' and 'clock-concentric'*
 
-**firstCircleElements** (default value 10) - number of elements in the first circle
+**firstCircleElements** (default value **10**) - number of elements in the first circle
 
-**elementsMultiplier** (default value 1.5) - multiplicator of elements number in the next circle
+**elementsMultiplier** (default value **1.5**) - multiplicator of elements number in the next circle
 
-**spiderfyDistanceSurplus** (default value 30) - value to be added to each new circle distance
+**spiderfyDistanceSurplus** (default value **30**) - value to be added to each new circle distance
 
-**helpingCircles** (default value true) - will draw helping circles
+**helpingCircles** (default value **true**) - will draw helping circles
 
-**helpingCircleOptions** (default value { fillOpacity: 0, color: 'grey', weight: 0.6 }) - possibility to specify helpingCircle style
+**helpingCircleOptions** (default value **{ fillOpacity: 0, color: 'grey', weight: 0.6 }** ) - possibility to specify helpingCircle style
 
 
 ### Notes:

@@ -8,7 +8,7 @@ L.MarkerClusterGroup.include({
         singleMarkerMode: false,
         disableClusteringAtZoom: null,
         removeOutsideVisibleBounds: true,
-        elementsPlacementStrategy: "concentric",
+        elementsPlacementStrategy: "clock-concentric",
         firstCircleElements: 10,
         elementsMultiplier: 1.5,
         spiderfyDistanceSurplus: 30,

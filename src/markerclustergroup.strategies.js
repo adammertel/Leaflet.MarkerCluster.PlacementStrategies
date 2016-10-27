@@ -28,37 +28,37 @@ L.MarkerCluster.include({
 		// applies chosen placement strategy
 		switch (this._group.options.elementsPlacementStrategy) {
 
-  		case 'default':
-  			if (childMarkers.length >= this._circleSpiralSwitchover) {
-  				positions = this._generatePointsSpiral(childMarkers.length, center);
-  			} else {
-  				positions = this._generatePointsCircle(childMarkers.length, center);
-  			}
-  			break;
+		case 'default':
+			if (childMarkers.length >= this._circleSpiralSwitchover) {
+				positions = this._generatePointsSpiral(childMarkers.length, center);
+			} else {
+				positions = this._generatePointsCircle(childMarkers.length, center);
+			}
+			break;
 
-  		case 'spiral':
-  			positions = this._generatePointsSpiral(childMarkers.length, center);
-  			break;
+		case 'spiral':
+			positions = this._generatePointsSpiral(childMarkers.length, center);
+			break;
 
-  		case 'one-circle':
-  			positions = this._generatePointsCircle(childMarkers.length, center);
-  			break;
+		case 'one-circle':
+			positions = this._generatePointsCircle(childMarkers.length, center);
+			break;
 
-  		case 'concentric':
-  			positions = this._generatePointsConcentricCircles(childMarkers.length, center);
-  			break;
+		case 'concentric':
+			positions = this._generatePointsConcentricCircles(childMarkers.length, center);
+			break;
 
-  		case 'clock':
-  			positions = this._generatePointsClocksCircles(childMarkers.length, center, false);
-  			break;
+		case 'clock':
+			positions = this._generatePointsClocksCircles(childMarkers.length, center, false);
+			break;
 
-  		case 'clock-concentric':
-  			positions = this._generatePointsClocksCircles(childMarkers.length, center, true);
-  			break;
+		case 'clock-concentric':
+			positions = this._generatePointsClocksCircles(childMarkers.length, center, true);
+			break;
 
-  		default:
-  			console.log('!!unknown placement strategy value. Allowed strategy names are : "default", "spiral", "one-circle", "concentric", "clock" and "clock-concentric" ');
-  		}
+		default:
+			console.log('!!unknown placement strategy value. Allowed strategy names are : "default", "spiral", "one-circle", "concentric", "clock" and "clock-concentric" ');
+		}
 
 		this._animationSpiderfy(childMarkers, positions);
 	},

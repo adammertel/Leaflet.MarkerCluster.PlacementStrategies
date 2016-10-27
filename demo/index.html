@@ -10,108 +10,276 @@
 
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
-  <script src="../dist/leaflet-markercluster.placementstrategies.js"></script>
+  <script src="../dist/leaflet-markercluster.placementstrategies.src.js"></script>
   <script src="./doctors.js"></script>
+
+  <link href="https://fonts.googleapis.com/css?family=PT+Sans+Narrow" rel="stylesheet">
 </head>
 
 <style>
-#map-content {
-  width: 100%;
-  height: 100%
-}
+  body {
+    margin: 0px;
+    font-family: 'PT Sans Narrow', sans-serif;
+  }
+  #map-content {
+    width: 100%;
+    height: 100%;
+    margin: 0
+  }
+  #panel {
+    position: absolute;
+    height: 90%;
+    width: 200px;
+    background-color: white;
+    top: 2%;
+    right: 2%;
+    z-index: 999;
+    padding-left: 15px;
+    opacity: 0.9;
+    border: 15px solid white;
+    border-opacity: 0;
+    font-size: 80%;
+  }
 
-.marker-cluster {
-  opacity: 1 !important
-}
+  .marker-cluster {
+    opacity: 1 !important
+  }
 
-.active-cluster-element {
-  opacity: 0.2;
-}
+  .active-cluster-element {
+    opacity: 0.2;
+  }
+
+  .select-row {
+    margin-: 2px;
+    margin-top: 6px;
+    margin-bottom: 2px;
+    margin-left: 5px
+  }
+
+  h4 {
+    margin-bottom: 5px
+  }
+
+  select {
+    margin-left: 5px
+  }
 </style>
 
 
 <body>
+
   <div id="map-content"></div>
+
+  <div id="panel">
+    <h4>GENERAL</h4>
+    <p class="select-row">strategy:</p>
+    <select id="strategy-select">
+      <option value="default">default</option>
+      <option value="spiral">spiral</option>
+      <option value="one-circle">one-circle</option>
+      <option value="clock">clock</option>
+      <option value="clock-concentric" selected>clock-concentric</option>
+      <option value="concentric">concentric</option>
+    </select>
+
+    <p class="select-row">shapes:</p>
+    <select id="shape-select">
+      <option value="circle" selected>circle</option>
+      <option value="marker">marker</option>
+    </select>
+
+    <p class="select-row">no elements in 1st circle:</p>
+    <select id="fcircle-select">
+      <option value="6">6</option>
+      <option value="8">8</option>
+      <option value="10" selected>10</option>
+      <option value="12">12</option>
+    </select>
+
+
+    <h4>HELPING CIRCLE</h4>
+
+    <p class="select-row">helping circles:</p>
+    <select id="hcircle-turn-select">
+      <option value='true' selected>true</option>
+      <option value='false'>false</option>
+    </select>
+
+    <p class="select-row">color:</p>
+    <select id="hcircle-color-select">
+      <option value='black' selected>black</option>
+      <option value='dimgray'>dimgray</option>
+      <option value='grey'>grey</option>
+      <option value='darkgrey'>darkgrey</option>
+      <option value='silver'>silver</option>
+    </select>
+
+    <p class="select-row">stroke weight:</p>
+    <select id="hcircle-weight-select">
+      <option value='0.2'>0.2</option>
+      <option value='0.4'>0.4</option>
+      <option value='0.6'>0.6</option>
+      <option value='0.8'>0.8</option>
+      <option value='1' selected>1</option>
+      <option value='1.2'>1.2</option>
+      <option value='1.4'>1.4</option>
+      <option value='1.6'>1.6</option>
+      <option value='1.8'>1.8</option>
+      <option value='2'>2</option>
+      <option value='2.2'>2.2</option>
+      <option value='2.4'>2.4</option>
+      <option value='2.6'>2.6</option>
+      <option value='2.8'>2.8</option>
+      <option value='3'>3</option>
+      <option value='3.2'>3.2</option>
+      <option value='3.4'>3.4</option>
+      <option value='3.6'>3.6</option>
+      <option value='3.8'>3.8</option>
+    </select>
+
+    <p class="select-row">stroke opacity:</p>
+    <select id="hcircle-opacity-select">
+      <option value='0.1'>0.1</option>
+      <option value='0.2'>0.2</option>
+      <option value='0.3'>0.3</option>
+      <option value='0.4'>0.4</option>
+      <option value='0.5'>0.5</option>
+      <option value='0.6'>0.6</option>
+      <option value='0.7'>0.7</option>
+      <option value='0.8'>0.8</option>
+      <option value='0.9'>0.9</option>
+      <option value='1' selected>1</option>
+    </select>
+
+    <p class="select-row">stroke style:</p>
+    <select id="hcircle-style-select">
+      <option value='0'>solid</option>
+      <option value='.1 4'>.1 4</option>
+      <option value='.2 4'>.2 4</option>
+      <option value='.4 6'>.4 6</option>
+      <option value='.6 6'>.6 6</option>
+      <option value='.8 10'>.8 10</option>
+      <option value='3'>3</option>
+      <option value='5'>5</option>
+      <option value='7'>7</option>
+      <option value='3 5' selected>3 5</option>
+      <option value='3 7'>3 7</option>
+      <option value='2 4'>2 4</option>
+      <option value='2 6'>2 6</option>
+      <option value='2 8'>2 8</option>
+      <option value='4 8'>4 8</option>
+      <option value='10 4 1 4'>10 4 1 4</option>
+      <option value='10 6 1 6'>10 4 1 4</option>
+    </select>
+
+    <p><i> Data: doctors in Austria </i></p>
+  </div>
   <script>
 
     // global variables
     var map;
 
-    $( document ).ready(function(){
+    var osmTiles = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    });
 
-      var colors = ['#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00'];
+
+    // colorbrewer 2
+    var colorsTypes = {
+      'Allgemeinmedizin (Praktischer Arzt)': '#8dd3c7',
+      'Frauenheilkunde (Gyn�kologie) und Geburtshilfe': '#ffffb3',
+      'An�sthesiologie und Intensivmedizin': '#80b1d3',
+      'Arbeits- und Betriebsmedizin': '#fdb462',
+      'Augenheilkunde und Optometrie': '#b3de69',
+      'Blutgruppenserologie und Transfusionsmedizin': '#fdb462',
+      'Chirurgie': '#fb8072',
+      'Frauenheilkunde (Gyn�kologie) und Geburtshilfe': '#fb8072',
+      'Gerichtsmedizin': '#fccde5',
+      'Hals-, Nasen- und Ohrenkrankheiten (HNO)': '#d9d9d9',
+      'Haut- und Geschlechtskrankheiten': '#bc80bd',
+      'Histologie und Embryologie': '#ccebc5',
+      'Hygiene und Mikrobiologie': '#ccebc5',
+      'Immunologie': '#ccebc5',
+      'Innere Medizin': '#ffed6f'
+    };
+
+    var circleStyle = function(doctor) {
+      // if (!colorsTypes[doctor.properties.type]) {
+      //   console.log(doctor.properties.type)
+      // }
+
+      return {
+        fillColor: colorsTypes[doctor.properties.type],
+        radius : 8,
+        stroke: true,
+        color : 'black',
+        weight: 1.5,
+        opacity : 0.8,
+        fillOpacity : 0.8,
+        className: 'marker'
+      };
+    };
+
+    $( document ).ready(function(){
+      map = L.map('map-content').setView([46.9, 12.5], 12);
+      refreshMap();
+      $('select').change(function () {
+      	refreshMap()
+      })
+    });
+
+
+
+    function refreshMap () {
+
+      if (markers) {
+        map.removeLayer(markers);
+      }
+      osmTiles.addTo(map);
 
       // setting map
 
-      map = L.map('map-content').setView([46.9, 12.5], 12);
-
-      L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-      }).addTo(map);
-
       var markers = L.markerClusterGroup({
         spiderLegPolylineOptions: {weight: 0},
-        clockHelpingCircleOptions: {weight: .7, opacity: 1, color: 'black', fillOpacity: 0, dashArray: '10 5'},
+        clockHelpingCircleOptions: {
+          weight: $('#hcircle-weight-select').val(),
+          opacity: $('#hcircle-opacity-select').val(),
+          color: $('#hcircle-color-select').val(),
+          fillOpacity: 0,
+          dashArray: $('#hcircle-style-select').val()
+        },
 
-        helpingCircles: true,
-        elementsPlacementStrategy: 'clock',
+        helpingCircles: $('#hcircle-turn-select').val() === 'true',
+        elementsPlacementStrategy: $('#strategy-select').val(),
 
         spiderfyDistanceSurplus: 25,
         spiderfyDistanceMultiplier: 1,
 
         elementsMultiplier: 1.4,
-        firstCircleElements: 10
+        firstCircleElements: parseInt($('#fcircle-select').val())
       });
 
-
-      // colorbrewer 2
-      var colorsTypes = {
-        'Allgemeinmedizin (Praktischer Arzt)': '#8dd3c7',
-        'Frauenheilkunde (Gyn�kologie) und Geburtshilfe': '#ffffb3',
-        'An�sthesiologie und Intensivmedizin': '#80b1d3',
-        'Arbeits- und Betriebsmedizin': '#fdb462',
-        'Augenheilkunde und Optometrie': '#b3de69',
-        'Blutgruppenserologie und Transfusionsmedizin': '#fdb462',
-        'Chirurgie': '#fb8072',
-        'Frauenheilkunde (Gyn�kologie) und Geburtshilfe': '#fb8072',
-        'Gerichtsmedizin': '#fccde5',
-        'Hals-, Nasen- und Ohrenkrankheiten (HNO)': '#d9d9d9',
-        'Haut- und Geschlechtskrankheiten': '#bc80bd',
-        'Histologie und Embryologie': '#ccebc5',
-        'Hygiene und Mikrobiologie': '#ccebc5',
-        'Immunologie': '#ccebc5',
-        'Innere Medizin': '#ffed6f'
-      }
-
-      var circleStyle = function(point) {
-        if (!colorsTypes[point.properties.type]) {
-          console.log(point.properties.type)
-        }
-
-        return {
-          fillColor: colorsTypes[point.properties.type],
-          radius : 8,
-          stroke: true,
-          color : 'black',
-          weight: 1.5,
-          opacity : 0.8,
-          fillOpacity : 0.8,
-          className: 'marker'
-        }
-      };
 
       // Parse doctors data
       for (var di in doctors.features) {
         var doctor = doctors.features[di];
 
-        var circle = L.circleMarker([doctor.geometry.coordinates[1], doctor.geometry.coordinates[0]], circleStyle(doctor));
-        circle.bindPopup("<h3>" + doctor.properties.name + "</h3>" + "<p>" + doctor.properties.type + "</p>" + "<p>" + doctor.properties.address + "</p>");
+        var marker;
+        if ($('#shape-select').val() === 'circle') {
+          marker = L.circleMarker([doctor.geometry.coordinates[1], doctor.geometry.coordinates[0]], circleStyle(doctor));
+        } else {
+          marker = L.marker([doctor.geometry.coordinates[1], doctor.geometry.coordinates[0]]);
+        }
 
-        markers.addLayer(circle);
+        marker.bindPopup("<h3>" + doctor.properties.name + "</h3>" + "<p>" + doctor.properties.type + "</p>" + "<p>" + doctor.properties.address + "</p>");
+
+        markers.addLayer(marker);
       }
 
+      console.log(markers)
       map.addLayer(markers);
-    })
+    }
+
   </script>
 </body>
 

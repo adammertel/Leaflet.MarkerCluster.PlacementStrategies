@@ -63,4 +63,5 @@ L.MarkerClusterGroup.include({
 		// Options to pass to the L.Polygon constructor
 		polygonOptions: {}
 	}
+  
 });
