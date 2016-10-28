@@ -10,8 +10,8 @@
 
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
-  <script src="../dist/leaflet-markercluster.placementstrategies.src.js"></script>
-  <script src="./doctors.js"></script>
+  <script src="https://cdn.rawgit.com/adammertel/Leaflet.MarkerCluster.PlacementStrategies/master/dist/leaflet-markercluster.placementstrategies.js"></script>
+  <script src="https://cdn.rawgit.com/adammertel/Leaflet.MarkerCluster.PlacementStrategies/master/demo/doctors.js"></script>
 
   <link href="https://fonts.googleapis.com/css?family=PT+Sans+Narrow" rel="stylesheet">
 </head>
@@ -29,7 +29,7 @@
   #panel {
     position: absolute;
     height: 90%;
-    width: 200px;
+    width: 150px;
     background-color: white;
     top: 2%;
     right: 2%;
@@ -50,14 +50,13 @@
   }
 
   .select-row {
-    margin-: 2px;
-    margin-top: 6px;
-    margin-bottom: 2px;
+    margin-top: 4px;
+    margin-bottom: 1px;
     margin-left: 5px
   }
 
   h4 {
-    margin-bottom: 5px
+    margin-bottom: 2px
   }
 
   select {
@@ -82,20 +81,43 @@
       <option value="concentric">concentric</option>
     </select>
 
+    <h4>ELEMENTS</h4>
+
     <p class="select-row">shapes:</p>
-    <select id="shape-select">
+    <select id="elms-shape-select">
       <option value="circle" selected>circle</option>
       <option value="marker">marker</option>
     </select>
 
     <p class="select-row">no elements in 1st circle:</p>
-    <select id="fcircle-select">
+    <select id="elms-fcircle-select">
       <option value="6">6</option>
       <option value="8">8</option>
       <option value="10" selected>10</option>
       <option value="12">12</option>
     </select>
 
+    <p class="select-row">elements multiplier:</p>
+    <select id="elms-multiplier-select">
+      <option value="1.2">1.2</option>
+      <option value="1.4">1.4</option>
+      <option value="1.5">1.5</option>
+      <option value="1.6" selected>1.6</option>
+      <option value="1.7">1.7</option>
+      <option value="1.8">1.8</option>
+      <option value="1.9">1.9</option>
+      <option value="2">2</option>
+    </select>
+
+
+    <p class="select-row">opacity of base map:</p>
+    <select id="mapopacity-select">
+      <option value="0.1">0.1</option>
+      <option value="0.3">0.3</option>
+      <option value="0.5">0.5</option>
+      <option value="0.8">0.8</option>
+      <option value="1" selected>1</option>
+    </select>
 
     <h4>HELPING CIRCLE</h4>
 
@@ -179,9 +201,8 @@
     // global variables
     var map;
 
-    var osmTiles = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-    });
+    var mapPosition = [46.9, 12.5];
+    var mapZoom = 12
 
 
     // colorbrewer 2
@@ -221,7 +242,6 @@
     };
 
     $( document ).ready(function(){
-      map = L.map('map-content').setView([46.9, 12.5], 12);
       refreshMap();
       $('select').change(function () {
       	refreshMap()
@@ -229,12 +249,19 @@
     });
 
 
-
     function refreshMap () {
+      var osmTiles = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+        opacity: parseFloat($('#mapopacity-select').val())
+      });
 
-      if (markers) {
-        map.removeLayer(markers);
-      }
+      if (map) {map.remove();}
+
+      map = L.map('map-content').setView(mapPosition, mapZoom);
+      map.on('zoomend', function () { mapZoom = map.getZoom(); });
+      map.on('moveend', function () { mapPosition = map.getCenter(); });
+
+
       osmTiles.addTo(map);
 
       // setting map
@@ -255,8 +282,8 @@
         spiderfyDistanceSurplus: 25,
         spiderfyDistanceMultiplier: 1,
 
-        elementsMultiplier: 1.4,
-        firstCircleElements: parseInt($('#fcircle-select').val())
+        elementsMultiplier: parseFloat($('#elms-multiplier-select').val()),
+        firstCircleElements: parseInt($('#elms-fcircle-select').val())
       });
 
 
@@ -265,7 +292,7 @@
         var doctor = doctors.features[di];
 
         var marker;
-        if ($('#shape-select').val() === 'circle') {
+        if ($('#elms-shape-select').val() === 'circle') {
           marker = L.circleMarker([doctor.geometry.coordinates[1], doctor.geometry.coordinates[0]], circleStyle(doctor));
         } else {
           marker = L.marker([doctor.geometry.coordinates[1], doctor.geometry.coordinates[0]]);

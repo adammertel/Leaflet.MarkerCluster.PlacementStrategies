@@ -30,7 +30,7 @@ var markers = L.markerClusterGroup({
   spiderfyDistanceMultiplier: 1,
 
   elementsMultiplier: 1.4,
-  firstCircleElements: fcircle
+  firstCircleElements: 8
 
 });
 
@@ -77,6 +77,7 @@ There is also another new type geometry called "helpingCircle" that could be use
 ### Options
 **elementsPlacementStrategy** (default value 'clock-concentric') - defines the strategy for placing markers in cluster, see above
 
+
 *Options that are valid for placement strategies 'concentric', 'clock' and 'clock-concentric'*
 
 **firstCircleElements** (default value **10**) - number of elements in the first circle
@@ -96,4 +97,4 @@ There is also another new type geometry called "helpingCircle" that could be use
 
 
 ### Demo:
-please see the demo here: https://jsfiddle.net/qumjcjb3/25/.
+One demo page is hosted here: http://coffeegnome.net/leaflet.markercluster.placementstrategies/doctors.html
