@@ -14,9 +14,11 @@ L.MarkerClusterGroup.include({
         spiderfyDistanceSurplus: 30,
         helpingCircles: true,
         clockHelpingCircleOptions: {
+            color: "grey",
+            dashArray: 5,
             fillOpacity: 0,
-            color: "black",
-            weight: .4
+            opacity: .5,
+            weight: 3
         },
         animate: false,
         animateAddingMarkers: false,
@@ -42,6 +44,11 @@ L.MarkerCluster.include({
         var childMarkers = this.getAllChildMarkers(), group = this._group, map = group._map, center = map.latLngToLayerPoint(this._latlng), positions;
         if (!(this._group.getLayers()[0] instanceof L.CircleMarker)) {
             center.y += 10;
+        }
+        for (var chmi in childMarkers) {
+            childMarkers[chmi].setStyle({
+                className: "clustered-element"
+            });
         }
         this._group._unspiderfy();
         this._group._spiderfied = this;

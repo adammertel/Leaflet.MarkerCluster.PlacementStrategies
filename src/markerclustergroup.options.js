@@ -36,7 +36,13 @@ L.MarkerClusterGroup.include({
 		helpingCircles: true,
 
 		// Possibility to specify helpingCircle style
-		clockHelpingCircleOptions: { fillOpacity: 0, color: 'black', weight: 0.4 },
+		clockHelpingCircleOptions: {
+      color: 'grey',
+      dashArray: 5,
+      fillOpacity: 0,
+      opacity: 0.5,
+      weight: 3
+     },
 
 		// Set to false to disable all animations (zoom and spiderfy).
 		// If false, option animateAddingMarkers below has no effect.
@@ -63,5 +69,5 @@ L.MarkerClusterGroup.include({
 		// Options to pass to the L.Polygon constructor
 		polygonOptions: {}
 	}
-  
+
 });
