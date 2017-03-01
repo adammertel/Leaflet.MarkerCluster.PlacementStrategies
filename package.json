@@ -3,9 +3,6 @@
   "version": "0.1.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
-    "test": "test"
-  },
   "keywords": [
     "leaflet",
     "markercluster",
