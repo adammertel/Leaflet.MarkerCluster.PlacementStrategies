@@ -1,15 +1,12 @@
 {
   "name": "leaflet.markercluster.placementstrategies",
   "version": "0.1.0",
-  "description": "",
-  "main": "index.js",
+  "description": "leaflet.markercluster subplugin that defines more strategies to place clustered markers",
   "keywords": [
     "leaflet",
     "markercluster",
-    "element",
     "placement",
-    "clustering",
-    "subplugin"
+    "clustering"
   ],
   "author": "Adam Mertel, University of Vienna",
   "license": "ISC",
