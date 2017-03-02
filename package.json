@@ -20,7 +20,7 @@
     "mkdirp": "latest"
   },
   "files": [
-    "dist"
+    "dist", "src", "demo"
   ],
   "scripts": {
     "jshint": "jshint src",

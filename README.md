@@ -2,9 +2,9 @@
 **subplugin for the [Leaflet.MarkerCluster](https://github.com/Leaflet/Leaflet.markercluster) that implements new possibilities how to place markers**
 
 ### How to use:
-1. include Leaflet and Leaflet.MarkerCluster libraries (cdnjs, ungkg, npm install, ...) in your code
+1. include Leaflet and Leaflet.MarkerCluster libraries (cdnjs, ungkg, npm install, ...)
 
-2. download and include built  [leaflet-markercluster.placementstrategies.js](https://github.com/adammertel/Leaflet.MarkerCluster.PlacementStrategies/blob/master/dist/leaflet-markercluster.placementstrategies.js) or [leaflet-markercluster.placementstrategies.src.js](https://github.com/adammertel/Leaflet.MarkerCluster.PlacementStrategies/blob/master/dist/leaflet-markercluster.placementstrategies.src.js) file.
+2. download and include built [leaflet-markercluster.placementstrategies.js](https://github.com/adammertel/Leaflet.MarkerCluster.PlacementStrategies/blob/master/dist/leaflet-markercluster.placementstrategies.js) or [leaflet-markercluster.placementstrategies.src.js](https://github.com/adammertel/Leaflet.MarkerCluster.PlacementStrategies/blob/master/dist/leaflet-markercluster.placementstrategies.src.js) file from dist folder.
 
 3. create an L.markerClusterGroup instance, add markers and define placement strategy and othe options:
 
@@ -35,8 +35,8 @@ map.addLayer(markers);
 
 
 ### How to build:
- - 1. install npm modules `npm install`
- - 2. run build command `npm run build`
+1. install npm modules `npm install`
+2. run build command `npm run build`
 
 `npm start` will watch and build on changes
 
