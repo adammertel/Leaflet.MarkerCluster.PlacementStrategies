@@ -11,7 +11,6 @@
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
   <script src="https://cdn.rawgit.com/adammertel/Leaflet.MarkerCluster.PlacementStrategies/master/dist/leaflet-markercluster.placementstrategies.js"></script>
-  <script src="https://cdn.rawgit.com/adammertel/Leaflet.MarkerCluster.PlacementStrategies/master/demo/doctors.js"></script>
 
   <link href="https://fonts.googleapis.com/css?family=PT+Sans+Narrow" rel="stylesheet">
 </head>
@@ -93,7 +92,6 @@
     <p class="select-row">base map:</p>
     <select id="base-map">
       <option value="osm" selected>OSM</option>
-      <option value="atBase">BasemapAT.basemap</option>
       <option value="osmBW">OSM BlackWhite</option>
       <option value="EsriWorldImagery">ESRI satellite</option>
     </select>
@@ -205,43 +203,36 @@
       <option value='10 6 1 6'>10 4 1 4</option>
     </select>
 
-    <p><i> Data: doctors in Austria </i></p>
+    <p><i> Data: random points </i></p>
   </div>
   <script>
 
     // global variables
     var map;
 
-    var mapPosition = [47.5, 13.5];
-    var mapZoom = 7
+    // creates extent for random data
+    var maxX = 49, minX = 48.8, minY = 18.0, maxY = 18.3;
+    var mapZoom = 12;
+    var mapPosition = [(maxX + minX)/2, (maxY + minY)/2];
 
+    // creating random data
+    var noTestData = 7000;
+    var data = [];
+    for (var i=0; i < noTestData; i++) {
+      data.push ({
+        x: minX + Math.random() * (maxX - minX),
+        y: minY + Math.random() * (maxY - minY),
+        type: Math.floor(Math.random() * 6)
+      });
+    }
 
     // colorbrewer 2
-    var colorsTypes = {
-      'Allgemeinmedizin (Praktischer Arzt)': '#8dd3c7',
-      'Frauenheilkunde (Gyn�kologie) und Geburtshilfe': '#ffffb3',
-      'An�sthesiologie und Intensivmedizin': '#80b1d3',
-      'Arbeits- und Betriebsmedizin': '#fdb462',
-      'Augenheilkunde und Optometrie': '#b3de69',
-      'Blutgruppenserologie und Transfusionsmedizin': '#fdb462',
-      'Chirurgie': '#fb8072',
-      'Frauenheilkunde (Gyn�kologie) und Geburtshilfe': '#fb8072',
-      'Gerichtsmedizin': '#fccde5',
-      'Hals-, Nasen- und Ohrenkrankheiten (HNO)': '#d9d9d9',
-      'Haut- und Geschlechtskrankheiten': '#bc80bd',
-      'Histologie und Embryologie': '#ccebc5',
-      'Hygiene und Mikrobiologie': '#ccebc5',
-      'Immunologie': '#ccebc5',
-      'Innere Medizin': '#ffed6f'
-    };
+    var colors = ['#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00','#ffff33'];
 
-    var circleStyle = function(doctor) {
-      // if (!colorsTypes[doctor.properties.type]) {
-      //   console.log(doctor.properties.type)
-      // }
+    var circleStyle = function(point) {
 
       return {
-        fillColor: colorsTypes[doctor.properties.type],
+        fillColor: colors[point.type],
         radius : 8,
         stroke: true,
         color : 'grey',
@@ -270,13 +261,6 @@
         	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
           opacity: parseFloat($('#mapopacity-select').val())
         }),
-        'atBase': L.tileLayer('https://maps{s}.wien.gv.at/basemap/geolandbasemap/normal/google3857/{z}/{y}/{x}.{format}', {
-          attribution: 'Datenquelle: <a href="www.basemap.at">basemap.at</a>',
-          subdomains: ["", "1", "2", "3", "4"],
-          format: 'png',
-          bounds: [[46.35877, 8.782379], [49.037872, 17.189532]],
-          opacity: parseFloat($('#mapopacity-select').val())
-        }),
         'EsriWorldImagery': L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
 	        attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
           opacity: parseFloat($('#mapopacity-select').val())
@@ -284,16 +268,15 @@
 
       }[$('#base-map').val()];
 
+      // setting map
       if (map) {map.remove();}
 
-      map = L.map('map-content').setView(mapPosition, mapZoom);
+      map = L.map('map-content', {maxZoom: 14}).setView(mapPosition, mapZoom);
       map.on('zoomend', function () { mapZoom = map.getZoom(); });
       map.on('moveend', function () { mapPosition = map.getCenter(); });
 
-
       baseTiles.addTo(map);
 
-      // setting map
 
       console.log({
         spiderLegPolylineOptions: {weight: 0},
@@ -336,18 +319,16 @@
       });
 
 
-      // Parse doctors data
-      for (var di in doctors.features) {
-        var doctor = doctors.features[di];
+      // parse data
+      for (var di in data) {
+        var point = data[di];
 
         var marker;
         if ($('#elms-shape-select').val() === 'circle') {
-          marker = L.circleMarker([doctor.geometry.coordinates[1], doctor.geometry.coordinates[0]], circleStyle(doctor));
+          marker = L.circleMarker([point.x, point.y], circleStyle(point));
         } else {
-          marker = L.marker([doctor.geometry.coordinates[1], doctor.geometry.coordinates[0]]);
+          marker = L.marker([point.x, point.y]);
         }
-
-        marker.bindPopup("<h3>" + doctor.properties.name + "</h3>" + "<p>" + doctor.properties.type + "</p>" + "<p>" + doctor.properties.address + "</p>");
 
         markers.addLayer(marker);
       }
