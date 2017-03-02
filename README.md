@@ -89,4 +89,4 @@ There is also another new type geometry called "helpingCircle" that could be use
 
 
 ### Demo:
-One demo page is hosted here: http://coffeegnome.net/leaflet.markercluster.placementstrategies/doctors.html
+One demo page is hosted here: http://coffeegnome.net/leaflet.markercluster.placementstrategies/demo1.html
