@@ -38,7 +38,7 @@ map.addLayer(markers);
  - 1. install npm modules `npm install`
  - 2. run build command `npm run build`
 
- - `npm start` will watch and build on changes
+`npm start` will watch and build on changes
 
 
 ### Placement Strategies
@@ -63,7 +63,7 @@ map.addLayer(markers);
 
 
 ### Helping Circles
-There is also another a new type geometry called "helpingCircle" that could be used for the last three strategies to make the cluster more visually-consistent.
+There is also another new type geometry called "helpingCircle" that could be used for the last three strategies to make the cluster more visually-consistent.
 
 
 ### Options

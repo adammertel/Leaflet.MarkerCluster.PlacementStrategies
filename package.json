@@ -10,6 +10,7 @@
   ],
   "author": "Adam Mertel, University of Vienna",
   "license": "ISC",
+  "main": "dist/leaflet-markercluster.placementstrategies.js",
 
   "devDependencies": {
     "jshint": "latest",
@@ -19,6 +20,7 @@
     "copyfiles": "^1.0.0",
     "mkdirp": "latest"
   },
+  "files": ["dist"],
   "scripts": {
     "jshint": "jshint src",
     "create-dist-folder": "mkdirp dist",
