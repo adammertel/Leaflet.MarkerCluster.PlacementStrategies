@@ -2,19 +2,9 @@
 **subplugin for the [Leaflet.MarkerCluster](https://github.com/Leaflet/Leaflet.markercluster) that implements new possibilities how to place markers**
 
 ### How to use:
-1. include Leaflet and Leaflet.MarkerCluster libraries:
+1. include Leaflet and Leaflet.MarkerCluster libraries (cdnjs, ungkg, npm install, ...) in your code
 
-```
- <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.1/leaflet.js"></script>
-
- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.0.0-rc.1.0/MarkerCluster.css" />
- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.0.0-rc.1.0/MarkerCluster.Default.css" />
- <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.0.0-rc.1.0/leaflet.markercluster.js"></script>
-```
-
-2. download and include built  [leaflet-markercluster.placementstrategies.js](https://github.com/adammertel/Leaflet.MarkerCluster.PlacementStrategies/blob/master/dist/leaflet-markercluster.placementstrategies.js) or [leaflet-markercluster.placementstrategies.src.js](https://github.com/adammertel/Leaflet.MarkerCluster.PlacementStrategies/blob/master/dist/leaflet-markercluster.placementstrategies.src.js) file and also include it.
-
+2. download and include built  [leaflet-markercluster.placementstrategies.js](https://github.com/adammertel/Leaflet.MarkerCluster.PlacementStrategies/blob/master/dist/leaflet-markercluster.placementstrategies.js) or [leaflet-markercluster.placementstrategies.src.js](https://github.com/adammertel/Leaflet.MarkerCluster.PlacementStrategies/blob/master/dist/leaflet-markercluster.placementstrategies.src.js) file.
 
 3. create an L.markerClusterGroup instance, add markers and define placement strategy and othe options:
 
@@ -48,6 +38,8 @@ map.addLayer(markers);
  - 1. install npm modules `npm install`
  - 2. run build command `npm run build`
 
+ - `npm start` will watch and build on changes
+
 
 ### Placement Strategies
 * **default** - one-circle strategy up to 8 elements (could be changed), else spiral strategy
@@ -71,7 +63,7 @@ map.addLayer(markers);
 
 
 ### Helping Circles
-There is also another new type geometry called "helpingCircle" that could be used for the last three strategies to make the cluster more consistent.
+There is also another a new type geometry called "helpingCircle" that could be used for the last three strategies to make the cluster more visually-consistent.
 
 
 ### Options
