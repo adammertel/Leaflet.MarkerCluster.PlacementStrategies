@@ -16,7 +16,6 @@ L.MarkerCluster.include({
 		}
 
 		for (var chmi in childMarkers){
-			console.log(childMarkers[chmi].setStyle);
 			if (childMarkers[chmi].setStyle) {
 				childMarkers[chmi].setStyle({className:"clustered-element"});
 			}
@@ -187,6 +186,12 @@ L.MarkerCluster.include({
 		if (this._group.options.helpingCircles) {
 
 			var clockCircleStyle = {radius: radius};
+
+			// keeping without fill if it is not defined
+			if (!this._group.options.clockHelpingCircleOptions.fill ) {
+				this._group.options.clockHelpingCircleOptions.fillColor = 'none';
+			}
+			console.log(this._group.options.clockHelpingCircleOptions);
 			L.extend(clockCircleStyle, this._group.options.clockHelpingCircleOptions);
 
 			var clockCircle = new L.CircleMarker(this._group._map.layerPointToLatLng(center), clockCircleStyle);

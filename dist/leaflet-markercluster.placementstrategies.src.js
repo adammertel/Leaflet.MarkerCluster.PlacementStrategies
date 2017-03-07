@@ -1,4 +1,4 @@
- /* Adam Mertel | UNIVIE.at */
+ /* Adam Mertel | UNIVIE */
 
 (function(exports, global) {
     L.MarkerCluster.include({
@@ -11,7 +11,6 @@
                 center.y += 10;
             }
             for (var chmi in childMarkers) {
-                console.log(childMarkers[chmi].setStyle);
                 if (childMarkers[chmi].setStyle) {
                     childMarkers[chmi].setStyle({
                         className: "clustered-element"
@@ -121,6 +120,10 @@
                 var clockCircleStyle = {
                     radius: radius
                 };
+                if (!this._group.options.clockHelpingCircleOptions.fill) {
+                    this._group.options.clockHelpingCircleOptions.fillColor = "none";
+                }
+                console.log(this._group.options.clockHelpingCircleOptions);
                 L.extend(clockCircleStyle, this._group.options.clockHelpingCircleOptions);
                 var clockCircle = new L.CircleMarker(this._group._map.layerPointToLatLng(center), clockCircleStyle);
                 this._group._featureGroup.addLayer(clockCircle);

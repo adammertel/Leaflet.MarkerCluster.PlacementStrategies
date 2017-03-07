@@ -69,7 +69,7 @@
 
   <div id="panel">
     <h4>GENERAL</h4>
-    <p class="select-row">strategy:</p>
+    <p class="select-row">elementsPlacementStrategy:</p>
     <select id="strategy-select">
       <option value="default">default</option>
       <option value="spiral">spiral</option>
@@ -84,8 +84,8 @@
       <option value="0.1">0.1</option>
       <option value="0.3">0.3</option>
       <option value="0.5">0.5</option>
-      <option value="0.8">0.8</option>
-      <option value="1" selected>1</option>
+      <option value="0.8" selected>0.8</option>
+      <option value="1">1</option>
     </select>
 
     <p class="select-row">base map:</p>
@@ -103,7 +103,7 @@
       <option value="marker">marker</option>
     </select>
 
-    <p class="select-row">distance surplus:</p>
+    <p class="select-row">spiderfyDistanceSurplus:</p>
     <select id="elms-surplus-select">
       <option value="0">0</option>
       <option value="5">5</option>
@@ -115,17 +115,17 @@
       <option value="35">35</option>
     </select>
 
-    <p class="select-row">distance multiplier:</p>
+    <p class="select-row">distanceMultiplier:</p>
     <select id="elms-distance-select">
       <option value="1" selected>1</option>
-      <option value="1.1" selected>1.1</option>
-      <option value="1.3" selected>1.3</option>
-      <option value="1.5" selected>1.5</option>
-      <option value="2" selected>2</option>
+      <option value="1.1">1.1</option>
+      <option value="1.3">1.3</option>
+      <option value="1.5">1.5</option>
+      <option value="2">2</option>
     </select>
 
 
-    <p class="select-row">no elements in 1st circle:</p>
+    <p class="select-row">firstCircleElements:</p>
     <select id="elms-fcircle-select">
       <option value="6">6</option>
       <option value="8">8</option>
@@ -133,7 +133,7 @@
       <option value="12">12</option>
     </select>
 
-    <p class="select-row">elements multiplier:</p>
+    <p class="select-row">elementsMultiplier:</p>
     <select id="elms-multiplier-select">
       <option value="1.2">1.2</option>
       <option value="1.4">1.4</option>
@@ -147,7 +147,7 @@
 
     <h4>HELPING CIRCLE</h4>
 
-    <p class="select-row">helping circles:</p>
+    <p class="select-row">helpingCircles :</p>
     <select id="hcircle-turn-select">
       <option value='true' selected>true</option>
       <option value='false'>false</option>
@@ -304,7 +304,6 @@
           weight: $('#hcircle-weight-select').val(),
           opacity: $('#hcircle-opacity-select').val(),
           color: $('#hcircle-color-select').val(),
-          fillOpacity: 0,
           dashArray: $('#hcircle-style-select').val()
         },
 
