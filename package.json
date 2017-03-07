@@ -25,10 +25,12 @@
   "scripts": {
     "jshint": "jshint src",
     "create-dist-folder": "mkdirp dist",
-    "concat-js": "uglifyjs \"src/*.js\" -o dist/leaflet-markercluster.placementstrategies.src.js -b --preamble \" /* Adam Mertel | UNIVIE.at */ \" --wrap ",
-    "minify-js": "uglifyjs dist/leaflet-markercluster.placementstrategies.src.js -o dist/leaflet-markercluster.placementstrategies.js -c -m",
+
+    "concat-js": "uglifyjs \"src/*.js\" -o dist/leaflet-markercluster.placementstrategies.src.js -b --preamble \" /* Adam Mertel | UNIVIE */ \" --wrap ",
+    "minify-js": "uglifyjs dist/leaflet-markercluster.placementstrategies.src.js -o dist/leaflet-markercluster.placementstrategies.js -c -m --preamble \" /* Adam Mertel | UNIVIE */ \"",
     "onchange-js": "onchange src/**/*.js -- npm run compile-js",
     "compile-js": "npm run concat-js && npm run minify-js",
+    
     "build": "parallelshell \"npm run create-dist-folder\" \"npm run jshint\"  \"npm run compile-js\" ",
     "start": "parallelshell \"npm run create-dist-folder\" \"npm run onchange-js\" \"npm run build\" "
   }
