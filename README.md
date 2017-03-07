@@ -1,5 +1,5 @@
 # Leaflet.MarkerCluster.PlacementStrategies
-**subplugin for the [Leaflet.MarkerCluster](https://github.com/Leaflet/Leaflet.markercluster) that implements new possibilities how to place markers**
+**subplugin for the [Leaflet.MarkerCluster](https://github.com/Leaflet/Leaflet.markercluster) that implements new possibilities how to place clustered markers**
 
 ### How to use:
 1. include Leaflet and Leaflet.MarkerCluster libraries (cdnjs, ungkg, npm install, ...)
@@ -42,7 +42,7 @@ map.addLayer(markers);
 
 
 ### Placement Strategies
-* **default** - one-circle strategy up to 8 elements (could be changed), else spiral strategy
+* **default** - one-circle strategy up to 8 elements, else spiral strategy
 * **spiral** - snail/spiral placement
 
     ![image](https://cloud.githubusercontent.com/assets/12932677/19441858/8d173ffe-9487-11e6-9cad-d4996c4b8673.png)
@@ -61,26 +61,29 @@ map.addLayer(markers);
 
 * **clock-concentric** - in the case of one circle, elements are places based on the concentric style, more circles are dislocated in the clock style
 
+**can be changed - _circleSpiralSwitchover variable in the original markerCLuster code*  
+
 
 ### Helping Circles
-There is also another new type geometry called "helpingCircle" that could be used for the last three strategies to make the cluster more visually-consistent.
+new type geometry called "helpingCircle" is added and can be used for the last three strategies to make the cluster more visually-consistent.
 
 
 ### Options
-**elementsPlacementStrategy** (default value 'clock-concentric') - defines the strategy for placing markers in cluster, see above
+ * **elementsPlacementStrategy** (default value 'clock-concentric') - defines the strategy for placing markers in cluster, see above
 
 
-*Options that are valid for placement strategies 'concentric', 'clock' and 'clock-concentric'*
 
-**firstCircleElements** (default value **10**) - number of elements in the first circle
+#### Options that are valid for placement strategies 'concentric', 'clock' and 'clock-concentric'
 
-**elementsMultiplier** (default value **1.5**) - multiplicator of elements number in the next circle
+ * **firstCircleElements** (default value **10**) - number of elements in the first circle
 
-**spiderfyDistanceSurplus** (default value **30**) - value to be added to each new circle distance
+ * **elementsMultiplier** (default value **1.5**) - multiplicator of elements number in the next circle
 
-**helpingCircles** (default value **true**) - will draw helping circles
+ * **spiderfyDistanceSurplus** (default value **30**) - value to be added to each new circle distance
 
-**helpingCircleOptions** (default value **{ fillOpacity: 0, color: 'grey', weight: 0.6 }** ) - possibility to specify helpingCircle style
+ * **helpingCircles** (default value **true**) - will draw helping circles
+
+ * **helpingCircleOptions** (default value **{ fillOpacity: 0, color: 'grey', weight: 0.6 }** ) - possibility to specify helpingCircle style
 
 
 ### Notes:
