@@ -15,8 +15,11 @@ L.MarkerCluster.include({
 			center.y += 10;
 		}
 
-		for(var chmi in childMarkers){
-			childMarkers[chmi].setStyle({className:"clustered-element"});
+		for (var chmi in childMarkers){
+			console.log(childMarkers[chmi].setStyle);
+			if (childMarkers[chmi].setStyle) {
+				childMarkers[chmi].setStyle({className:"clustered-element"});
+			}
 		}
 
 		this._group._unspiderfy();
