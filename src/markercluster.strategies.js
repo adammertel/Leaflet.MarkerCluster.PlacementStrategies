@@ -59,6 +59,10 @@ L.MarkerCluster.include({
 			positions = this._generatePointsClocksCircles(childMarkers.length, center, true);
 			break;
 
+		case 'original-locations':
+			positions = this._getOriginalLocations(childMarkers);
+			break;
+
 		default:
 			console.log('!!unknown placement strategy value. Allowed strategy names are : "default", "spiral", "one-circle", "concentric", "clock" and "clock-concentric" ');
 		}
@@ -303,5 +307,15 @@ L.MarkerCluster.include({
 			fg.removeLayer(this._clockHelpingGeometries[hg]);
 		}
 	},
+
+	_getOriginalLocations: function(childMarkers) {
+		var res = [];
+
+		childMarkers.forEach(function (marker) {
+			res.push(this._group._map.latLngToLayerPoint(marker.getLatLng()));
+		});
+
+		return res;
+	}
 
 });
