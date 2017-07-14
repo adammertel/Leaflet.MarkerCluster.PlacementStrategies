@@ -7,11 +7,11 @@ L.MarkerCluster.include({
       return;
     }
 
-    var childMarkers = this.getAllChildMarkers(),
-      group = this._group,
-      map = group._map,
-      center = map.latLngToLayerPoint(this._latlng),
-      positions;
+    const childMarkers = this.getAllChildMarkers();
+    const group = this._group;
+    const map = group._map;
+    const center = map.latLngToLayerPoint(this._latlng);
+    let positions = [];
 
     if (!(this._group.getLayers()[0] instanceof L.CircleMarker)) {
       center.y += 10;
@@ -28,7 +28,7 @@ L.MarkerCluster.include({
 
     this._clockHelpingGeometries = [];
 
-    //TODO Maybe: childMarkers order by distance to center
+    // TODO Maybe: childMarkers order by distance to center
 
     // applies chosen placement strategy
     switch (this._group.options.elementsPlacementStrategy) {
@@ -70,7 +70,6 @@ L.MarkerCluster.include({
 
 
   unspiderfy: function (zoomDetails) {
-    var group = this._group;
     /// <param Name="zoomDetails">Argument from zoomanim if being called in a zoom animation or null otherwise</param>
     if (this._group._inZoomAnimation) {
       return;
@@ -78,19 +77,20 @@ L.MarkerCluster.include({
     this._animationUnspiderfy(zoomDetails);
 
     // remove _supportiveGeometries from map
-    if (group.options.helpingCircles) {
-      this._removeClockHelpingCircles(group._featureGroup);
+    if (this._group.options.helpingCircles) {
+      this._removeClockHelpingCircles(this._group._featureGroup);
     }
 
-    group._spiderfied = null;
+    this._group._spiderfied = null;
   },
 
   _generatePointsCircle: function (count, centerPt) {
-    var circumference = this._group.options.spiderfyDistanceMultiplier * this._circleFootSeparation * (2 + count),
+    const circumference = this._group.options.spiderfyDistanceMultiplier * this._circleFootSeparation * (2 + count),
       legLength = circumference / this._2PI,  //radius from circumference
       angleStep = this._2PI / count,
-      res = [],
-      i, angle;
+      res = [];
+
+    let i, angle;
 
     res.length = count;
 
@@ -103,13 +103,12 @@ L.MarkerCluster.include({
   },
 
   _generatePointsSpiral: function (count, centerPt) {
-    var spiderfyDistanceMultiplier = this._group.options.spiderfyDistanceMultiplier,
-      legLength = spiderfyDistanceMultiplier * this._spiralLengthStart,
+    const spiderfyDistanceMultiplier = this._group.options.spiderfyDistanceMultiplier,
       separation = spiderfyDistanceMultiplier * this._spiralFootSeparation,
       lengthFactor = spiderfyDistanceMultiplier * this._spiralLengthFactor * this._2PI,
-      angle = 0,
-      res = [],
-      i;
+      res = [];
+    let i, angle = 0;
+    let legLength = spiderfyDistanceMultiplier * this._spiralLengthStart;
 
     res.length = count;
 
@@ -124,8 +123,8 @@ L.MarkerCluster.include({
 
   // auxiliary method - returns placement of vertex of given regular n-side polygon
   _regularPolygonVertexPlacement: function (vertexNo, totalVertices, centerPt, distanceFromCenter) {
-    var deltaAngle = this._2PI / totalVertices,
-      thisAngle = deltaAngle * vertexNo;
+    const deltaAngle = this._2PI / totalVertices;
+    let thisAngle = deltaAngle * vertexNo;
 
     // in case of two vertices, right-left placement is more estetic
     if (totalVertices !== 2) {
@@ -142,15 +141,15 @@ L.MarkerCluster.include({
   // clock strategy placement.
   // regularFirstCicle parameter - true if first elements in the first circle are placed regularly
   _generatePointsClocksCircles: function (count, centerPt, regularFirstCircle) {
-    var res = [];
-    var fce = this._group.options.firstCircleElements;
+    const res = [];
+    const fce = this._group.options.firstCircleElements;
 
-    var baseDistance = this._circleFootSeparation * 1.5, // offset of the first circle
+    const baseDistance = this._circleFootSeparation * 1.5, // offset of the first circle
       dm = this._group.options.spiderfyDistanceMultiplier, // multiplier of the offset for a next circle
       distanceSurplus = this._group.options.spiderfyDistanceSurplus, // multiplier of the offset for a next circle
       elementsMultiplier = this._group.options.elementsMultiplier; // multiplier of number of elements in the next circle
 
-    var iCircleNumber = 1,
+    let iCircleNumber = 1,
       iCircleNoElements = fce,
       iCircleDistance = baseDistance,
       elementsInPreviousCircles = 0;
@@ -187,7 +186,7 @@ L.MarkerCluster.include({
   _createHelpingCircle: function (center, radius) {
     if (this._group.options.helpingCircles) {
 
-      var clockCircleStyle = {radius: radius};
+      const clockCircleStyle = {radius: radius};
 
       // keeping without fill if it is not defined
       if (!this._group.options.clockHelpingCircleOptions.fill ) {
@@ -196,7 +195,7 @@ L.MarkerCluster.include({
       console.log(this._group.options.clockHelpingCircleOptions);
       L.extend(clockCircleStyle, this._group.options.clockHelpingCircleOptions);
 
-      var clockCircle = new L.CircleMarker(this._group._map.layerPointToLatLng(center), clockCircleStyle);
+      const clockCircle = new L.CircleMarker(this._group._map.layerPointToLatLng(center), clockCircleStyle);
       this._group._featureGroup.addLayer(clockCircle);
       this._clockHelpingGeometries.push(clockCircle);
     }
@@ -205,9 +204,9 @@ L.MarkerCluster.include({
   // concentric circles strategy placement.
   // divide elements of cluster into concentric zones based on elementsMultiplier and firstCircleElements parameters
   _generatePointsConcentricCircles: function (count, centerPt) {
-    var res = [];
+    const res = [];
 
-    var fce = this._group.options.firstCircleElements,
+    const fce = this._group.options.firstCircleElements,
       baseDistance = this._circleFootSeparation * 1.5, // offset of the first circle
       dm = this._group.options.spiderfyDistanceMultiplier, // multiplier of the offset for a next circle
       elementsMultiplier = this._group.options.elementsMultiplier, // multiplier of number of elements in the next circle
@@ -236,6 +235,7 @@ L.MarkerCluster.include({
     // number of points in the second circle
     if (count > fce) {
       circles[1].noElements = secondCircleElements;
+
       if (
         (fce < count && count < 2 * fce) ||
         (fce + secondCircleElements < count && count < 2 * fce + secondCircleElements)
@@ -265,8 +265,8 @@ L.MarkerCluster.include({
     circles[3].noElements = Math.max(count - circles[0].noElements - circles[1].noElements - circles[2].noElements, 0);
 
 
-    var prevCirclesEls = 0; // number of elements in the finished circles
-    var iCircle = circles[0]; // curretly driven circle
+    let prevCirclesEls = 0; // number of elements in the finished circles
+    let iCircle = circles[0]; // curretly driven circle
 
     // iterating elements
     for (var i = 1; i <= count; i++) {
@@ -290,12 +290,8 @@ L.MarkerCluster.include({
       res[i - 1] = this._regularPolygonVertexPlacement(i - prevCirclesEls, iCircle.noElements, centerPt, iCircle.distance);
     }
 
-    for (var ci in circles) {
-      if (circles[ci].noElements) {
-        this._createHelpingCircle(centerPt, circles[ci].distance);
-      }
-    }
-
+    circles.filter(c => c.noElements).map(c => this._createHelpingCircle(centerPt, c.distance));
+    
     return res;
   },
 

@@ -7,11 +7,11 @@ L.MarkerCluster.include({
       return;
     }
 
-    var childMarkers = this.getAllChildMarkers(),
-        group = this._group,
-        map = group._map,
-        center = map.latLngToLayerPoint(this._latlng),
-        positions;
+    var childMarkers = this.getAllChildMarkers();
+    var group = this._group;
+    var map = group._map;
+    var center = map.latLngToLayerPoint(this._latlng);
+    var positions = [];
 
     if (!(this._group.getLayers()[0] instanceof L.CircleMarker)) {
       center.y += 10;
@@ -66,27 +66,26 @@ L.MarkerCluster.include({
   },
 
   unspiderfy: function unspiderfy(zoomDetails) {
-    var group = this._group;
-
     if (this._group._inZoomAnimation) {
       return;
     }
     this._animationUnspiderfy(zoomDetails);
 
-    if (group.options.helpingCircles) {
-      this._removeClockHelpingCircles(group._featureGroup);
+    if (this._group.options.helpingCircles) {
+      this._removeClockHelpingCircles(this._group._featureGroup);
     }
 
-    group._spiderfied = null;
+    this._group._spiderfied = null;
   },
 
   _generatePointsCircle: function _generatePointsCircle(count, centerPt) {
     var circumference = this._group.options.spiderfyDistanceMultiplier * this._circleFootSeparation * (2 + count),
         legLength = circumference / this._2PI,
         angleStep = this._2PI / count,
-        res = [],
-        i,
-        angle;
+        res = [];
+
+    var i = void 0,
+        angle = void 0;
 
     res.length = count;
 
@@ -100,12 +99,12 @@ L.MarkerCluster.include({
 
   _generatePointsSpiral: function _generatePointsSpiral(count, centerPt) {
     var spiderfyDistanceMultiplier = this._group.options.spiderfyDistanceMultiplier,
-        legLength = spiderfyDistanceMultiplier * this._spiralLengthStart,
         separation = spiderfyDistanceMultiplier * this._spiralFootSeparation,
         lengthFactor = spiderfyDistanceMultiplier * this._spiralLengthFactor * this._2PI,
-        angle = 0,
-        res = [],
-        i;
+        res = [];
+    var i = void 0,
+        angle = 0;
+    var legLength = spiderfyDistanceMultiplier * this._spiralLengthStart;
 
     res.length = count;
 
@@ -118,8 +117,8 @@ L.MarkerCluster.include({
   },
 
   _regularPolygonVertexPlacement: function _regularPolygonVertexPlacement(vertexNo, totalVertices, centerPt, distanceFromCenter) {
-    var deltaAngle = this._2PI / totalVertices,
-        thisAngle = deltaAngle * vertexNo;
+    var deltaAngle = this._2PI / totalVertices;
+    var thisAngle = deltaAngle * vertexNo;
 
     if (totalVertices !== 2) {
       thisAngle -= 1.6;
@@ -185,6 +184,8 @@ L.MarkerCluster.include({
   },
 
   _generatePointsConcentricCircles: function _generatePointsConcentricCircles(count, centerPt) {
+    var _this = this;
+
     var res = [];
 
     var fce = this._group.options.firstCircleElements,
@@ -210,6 +211,7 @@ L.MarkerCluster.include({
 
     if (count > fce) {
       circles[1].noElements = secondCircleElements;
+
       if (fce < count && count < 2 * fce || fce + secondCircleElements < count && count < 2 * fce + secondCircleElements) {
         circles[1].noElements = fce;
       }
@@ -253,11 +255,11 @@ L.MarkerCluster.include({
       res[i - 1] = this._regularPolygonVertexPlacement(i - prevCirclesEls, iCircle.noElements, centerPt, iCircle.distance);
     }
 
-    for (var ci in circles) {
-      if (circles[ci].noElements) {
-        this._createHelpingCircle(centerPt, circles[ci].distance);
-      }
-    }
+    circles.filter(function (c) {
+      return c.noElements;
+    }).map(function (c) {
+      return _this._createHelpingCircle(centerPt, c.distance);
+    });
 
     return res;
   },
