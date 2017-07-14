@@ -12,26 +12,26 @@
   "license": "ISC",
   "main": "dist/leaflet-markercluster.placementstrategies.js",
   "devDependencies": {
-    "jshint": "latest",
-    "parallelshell": "^2.0.0",
-    "uglify-js": "^2.7.3",
-    "onchange": "^2.5.0",
     "copyfiles": "^1.0.0",
-    "mkdirp": "latest"
+    "eslint": "^4.2.0",
+    "mkdirp": "latest",
+    "npm-run-all": "^4.0.2",
+    "onchange": "^2.5.0",
+    "uglify-js": "^2.7.3"
   },
   "files": [
-    "dist", "src", "demo"
+    "dist",
+    "src",
+    "demo"
   ],
   "scripts": {
-    "jshint": "jshint src",
     "create-dist-folder": "mkdirp dist",
-
-    "concat-js": "uglifyjs \"src/*.js\" -o dist/leaflet-markercluster.placementstrategies.src.js -b --preamble \" /* Adam Mertel | UNIVIE */ \" --wrap ",
-    "minify-js": "uglifyjs dist/leaflet-markercluster.placementstrategies.src.js -o dist/leaflet-markercluster.placementstrategies.js -c -m --preamble \" /* Adam Mertel | UNIVIE */ \"",
-    "onchange-js": "onchange src/**/*.js -- npm run compile-js",
-    "compile-js": "npm run concat-js && npm run minify-js",
-    
-    "build": "parallelshell \"npm run create-dist-folder\" \"npm run jshint\"  \"npm run compile-js\" ",
-    "start": "parallelshell \"npm run create-dist-folder\" \"npm run onchange-js\" \"npm run build\" "
+    "eslint": "eslint src",
+    "concat": "uglifyjs \"src/*.js\" -o dist/leaflet-markercluster.placementstrategies.src.js -b --preamble \" /* Adam Mertel | UNIVIE */ \" --wrap ",
+    "minify": "uglifyjs dist/leaflet-markercluster.placementstrategies.src.js -o dist/leaflet-markercluster.placementstrategies.js -c -m --preamble \" /* Adam Mertel | UNIVIE */ \"",
+    "onchange": "onchange src/**/*.js -- npm run compile",
+    "compile": "npm run concat && npm run minify",
+    "build": "run-s create-dist-folder eslint compile",
+    "start": "run-p create-dist-folder onchange build"
   }
 }
