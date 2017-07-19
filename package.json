@@ -12,26 +12,30 @@
   "license": "ISC",
   "main": "dist/leaflet-markercluster.placementstrategies.js",
   "devDependencies": {
-    "jshint": "latest",
-    "parallelshell": "^2.0.0",
-    "uglify-js": "^2.7.3",
-    "onchange": "^2.5.0",
+    "@comandeer/babel-plugin-banner": "^1.0.0",
+    "babel": "^6.23.0",
+    "babel-cli": "^6.24.1",
+    "babel-plugin-transform-remove-console": "^6.8.4",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-es2015": "^6.24.1",
     "copyfiles": "^1.0.0",
-    "mkdirp": "latest"
+    "eslint": "^4.2.0",
+    "mkdirp": "latest",
+    "npm-run-all": "^4.0.2",
+    "onchange": "^2.5.0"
   },
   "files": [
-    "dist", "src", "demo"
+    "dist",
+    "src",
+    "demo"
   ],
   "scripts": {
-    "jshint": "jshint src",
     "create-dist-folder": "mkdirp dist",
-
-    "concat-js": "uglifyjs \"src/*.js\" -o dist/leaflet-markercluster.placementstrategies.src.js -b --preamble \" /* Adam Mertel | UNIVIE */ \" --wrap ",
-    "minify-js": "uglifyjs dist/leaflet-markercluster.placementstrategies.src.js -o dist/leaflet-markercluster.placementstrategies.js -c -m --preamble \" /* Adam Mertel | UNIVIE */ \"",
-    "onchange-js": "onchange src/**/*.js -- npm run compile-js",
-    "compile-js": "npm run concat-js && npm run minify-js",
-    
-    "build": "parallelshell \"npm run create-dist-folder\" \"npm run jshint\"  \"npm run compile-js\" ",
-    "start": "parallelshell \"npm run create-dist-folder\" \"npm run onchange-js\" \"npm run build\" "
+    "eslint": "eslint src",
+    "babel": "babel src --out-file dist/leaflet-markercluster.placementstrategies.src.js",
+    "minify": "babel --plugins transform-remove-console dist/leaflet-markercluster.placementstrategies.src.js --out-file dist/leaflet-markercluster.placementstrategies.js --minified",
+    "onchange": "onchange src/**/*.js -- npm run build",
+    "build": "run-s create-dist-folder eslint babel minify",
+    "start": "run-p create-dist-folder onchange build"
   }
 }
