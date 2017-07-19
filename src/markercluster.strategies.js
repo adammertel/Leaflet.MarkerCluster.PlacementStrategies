@@ -61,13 +61,13 @@ L.MarkerCluster.include({
       positions = this._generatePointsClocksCircles(childMarkers.length, center, true);
       break;
 
-	case 'original-locations':
-		positions = this._getOriginalLocations(childMarkers);
-		break;
+    case 'original-locations':
+      positions = this._getOriginalLocations(childMarkers);
+      break;
 
-	default:
-		console.log('!!unknown placement strategy value. Allowed strategy names are : "default", "spiral", "one-circle", "concentric", "clock" and "clock-concentric" ');
-	}
+    default:
+      console.log('!!unknown placement strategy value. Allowed strategy names are : "default", "spiral", "one-circle", "concentric", "clock" and "clock-concentric" ');
+    }
 
     this._animationSpiderfy(childMarkers, positions);
   },
@@ -310,10 +310,10 @@ L.MarkerCluster.include({
     var res = [];
 
     childMarkers.forEach(function (marker) {
-    res.push(this._group._map.latLngToLayerPoint(marker.getLatLng()));
+      res.push(this._group._map.latLngToLayerPoint(marker.getLatLng()));
     });
 
-	return res;
+    return res;
   }
 
 });

@@ -58,6 +58,10 @@ L.MarkerCluster.include({
         positions = this._generatePointsClocksCircles(childMarkers.length, center, true);
         break;
 
+      case 'original-locations':
+        positions = this._getOriginalLocations(childMarkers);
+        break;
+
       default:
         console.log('!!unknown placement strategy value. Allowed strategy names are : "default", "spiral", "one-circle", "concentric", "clock" and "clock-concentric" ');
     }
@@ -268,6 +272,16 @@ L.MarkerCluster.include({
     for (var hg in this._clockHelpingGeometries) {
       fg.removeLayer(this._clockHelpingGeometries[hg]);
     }
+  },
+
+  _getOriginalLocations: function _getOriginalLocations(childMarkers) {
+    var res = [];
+
+    childMarkers.forEach(function (marker) {
+      res.push(this._group._map.latLngToLayerPoint(marker.getLatLng()));
+    });
+
+    return res;
   }
 
 });
@@ -275,50 +289,50 @@ L.MarkerCluster.include({
 
 L.MarkerClusterGroup.include({
 
-    options: {
-        maxClusterRadius: 80,
-        iconCreateFunction: null,
+  options: {
+    maxClusterRadius: 80,
+    iconCreateFunction: null,
 
-        spiderfyOnMaxZoom: true,
-        showCoverageOnHover: true,
-        zoomToBoundsOnClick: true,
-        singleMarkerMode: false,
+    spiderfyOnMaxZoom: true,
+    showCoverageOnHover: true,
+    zoomToBoundsOnClick: true,
+    singleMarkerMode: false,
 
-        disableClusteringAtZoom: null,
+    disableClusteringAtZoom: null,
 
-        removeOutsideVisibleBounds: true,
+    removeOutsideVisibleBounds: true,
 
-        elementsPlacementStrategy: 'clock-concentric',
+    elementsPlacementStrategy: 'clock-concentric',
 
-        firstCircleElements: 10,
+    firstCircleElements: 10,
 
-        elementsMultiplier: 1.5,
+    elementsMultiplier: 1.5,
 
-        spiderfyDistanceSurplus: 30,
+    spiderfyDistanceSurplus: 30,
 
-        helpingCircles: true,
+    helpingCircles: true,
 
-        clockHelpingCircleOptions: {
-            color: 'grey',
-            dashArray: 5,
-            fillOpacity: 0,
-            opacity: 0.5,
-            weight: 3
-        },
+    clockHelpingCircleOptions: {
+      color: 'grey',
+      dashArray: 5,
+      fillOpacity: 0,
+      opacity: 0.5,
+      weight: 3
+    },
 
-        animate: false,
+    animate: false,
 
-        animateAddingMarkers: false,
+    animateAddingMarkers: false,
 
-        spiderfyDistanceMultiplier: 1,
+    spiderfyDistanceMultiplier: 1,
 
-        spiderLegPolylineOptions: { weight: 1.5, color: '#222', opacity: 0.5 },
+    spiderLegPolylineOptions: { weight: 1.5, color: '#222', opacity: 0.5 },
 
-        chunkedLoading: false,
-        chunkInterval: 200,
-        chunkDelay: 50,
-        chunkProgress: null,
-        polygonOptions: {}
-    }
+    chunkedLoading: false,
+    chunkInterval: 200,
+    chunkDelay: 50,
+    chunkProgress: null,
+    polygonOptions: {}
+  }
 
 });
