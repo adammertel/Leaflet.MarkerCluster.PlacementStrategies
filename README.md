@@ -45,23 +45,25 @@ map.addLayer(markers);
 * **default** - one-circle strategy up to 8 elements, else spiral strategy
 * **spiral** - snail/spiral placement
 
-    ![image](https://cloud.githubusercontent.com/assets/12932677/19441858/8d173ffe-9487-11e6-9cad-d4996c4b8673.png)
+    ![image](./assets/img_strategy_spiral.png)
 
 * **one-circle** - put all the elements into one circle
 
-    ![image](https://cloud.githubusercontent.com/assets/12932677/19441871/94311d32-9487-11e6-8797-fcd0033febb2.png)
+    ![image](./assets/img_strategy_onecircle.png)
 
 * **concentric** - elements are placed automatically into concentric circles, there is a maximum of 4 circles
 
-    ![image](https://cloud.githubusercontent.com/assets/12932677/19441875/996cd502-9487-11e6-98e2-c51973ce3fed.png)
+    ![image](./assets/img_strategy_concentric.png)
 
 * **clock** - fills circles around the cluster marker in the style of clocks
 
-    ![image](https://cloud.githubusercontent.com/assets/12932677/19441883/9e84b1ae-9487-11e6-8ea8-4505d0148397.png)
+    ![image](./assets/img_strategy_clock.png)
 
 * **clock-concentric** - in the case of one circle, elements are places based on the concentric style, more circles are dislocated in the clock style
 
 * **original-locations** - elements are placed at their original locations
+
+    ![image](./assets/img_strategy_original.png)
 
 **can be changed - _circleSpiralSwitchover variable in the original markerCLuster code*  
 
