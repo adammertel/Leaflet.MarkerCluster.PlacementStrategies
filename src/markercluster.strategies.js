@@ -62,7 +62,7 @@ L.MarkerCluster.include({
       break;
 
     case 'original-locations':
-      positions = this._getOriginalLocations(childMarkers);
+      positions = this._getOriginalLocations(childMarkers, this._group._map);
       break;
 
     default:
@@ -306,11 +306,11 @@ L.MarkerCluster.include({
     }
   },
 
-  _getOriginalLocations: function(childMarkers) {
+  _getOriginalLocations: function(childMarkers, map) {
     var res = [];
 
     childMarkers.forEach(function (marker) {
-      res.push(this._group._map.latLngToLayerPoint(marker.getLatLng()));
+      res.push(map.latLngToLayerPoint(marker.getLatLng()));
     });
 
     return res;

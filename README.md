@@ -61,6 +61,8 @@ map.addLayer(markers);
 
 * **clock-concentric** - in the case of one circle, elements are places based on the concentric style, more circles are dislocated in the clock style
 
+* **original-locations** - elements are placed at their original locations
+
 **can be changed - _circleSpiralSwitchover variable in the original markerCLuster code*  
 
 
