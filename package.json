@@ -1,6 +1,6 @@
 {
   "name": "leaflet.markercluster.placementstrategies",
-  "version": "0.1.1",
+  "version": "0.1.3",
   "description": "leaflet.markercluster subplugin that defines more strategies to place clustered markers",
   "keywords": [
     "leaflet",

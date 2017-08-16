@@ -45,25 +45,25 @@ map.addLayer(markers);
 * **default** - one-circle strategy up to 8 elements, else spiral strategy
 * **spiral** - snail/spiral placement
 
-    ![image](./assets/img_strategy_spiral.png)
+    ![image](https://raw.githubusercontent.com/adammertel/Leaflet.MarkerCluster.PlacementStrategies/blob/master/assets/img_strategy_spiral.png)
 
 * **one-circle** - put all the elements into one circle
 
-    ![image](./assets/img_strategy_onecircle.png)
+    ![image](https://raw.githubusercontent.com/adammertel/Leaflet.MarkerCluster.PlacementStrategies/blob/master/assets/img_strategy_onecircle.png)
 
 * **concentric** - elements are placed automatically into concentric circles, there is a maximum of 4 circles
 
-    ![image](./assets/img_strategy_concentric.png)
+    ![image](https://raw.githubusercontent.com/adammertel/Leaflet.MarkerCluster.PlacementStrategies/blob/master/assets/img_strategy_concentric.png)
 
 * **clock** - fills circles around the cluster marker in the style of clocks
 
-    ![image](./assets/img_strategy_clock.png)
+    ![image](https://raw.githubusercontent.com/adammertel/Leaflet.MarkerCluster.PlacementStrategies/blob/master/assets/img_strategy_clock.png)
 
 * **clock-concentric** - in the case of one circle, elements are places based on the concentric style, more circles are dislocated in the clock style
 
 * **original-locations** - elements are placed at their original locations
 
-    ![image](./assets/img_strategy_original.png)
+    ![image](https://raw.githubusercontent.com/adammertel/Leaflet.MarkerCluster.PlacementStrategies/blob/master/assets/img_strategy_original.png)
 
 **can be changed - _circleSpiralSwitchover variable in the original markerCLuster code*  
 
