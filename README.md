@@ -1,12 +1,12 @@
 # Leaflet.MarkerCluster.PlacementStrategies
-**subplugin for the [Leaflet.MarkerCluster](https://github.com/Leaflet/Leaflet.markercluster) that implements new possibilities how to place clustered markers**
+**subplugin for the [Leaflet.MarkerCluster](https://github.com/Leaflet/Leaflet.markercluster) that implements new possibilities how to place clustered chidren markers**
 
 ### How to use:
 1. include Leaflet and Leaflet.MarkerCluster libraries (cdnjs, ungkg, npm install, ...)
 
 2. download and include built [leaflet-markercluster.placementstrategies.js](https://github.com/adammertel/Leaflet.MarkerCluster.PlacementStrategies/blob/master/dist/leaflet-markercluster.placementstrategies.js) or [leaflet-markercluster.placementstrategies.src.js](https://github.com/adammertel/Leaflet.MarkerCluster.PlacementStrategies/blob/master/dist/leaflet-markercluster.placementstrategies.src.js) file from dist folder.
 
-3. create an L.markerClusterGroup instance, add markers and define placement strategy and othe options:
+3. create L.markerClusterGroup instance, add markers and define placement strategy and othe options:
 
 ```
 var markers = L.markerClusterGroup({
@@ -42,7 +42,7 @@ map.addLayer(markers);
 
 
 ### Placement Strategies
-* **default** - one-circle strategy up to 8 elements, else spiral strategy
+* **default** - one-circle strategy (up to 8 elements*, else spiral strategy)
 * **spiral** - snail/spiral placement
 
     ![image](https://raw.githubusercontent.com/adammertel/Leaflet.MarkerCluster.PlacementStrategies/master/assets/img_strategy_spiral.png)
@@ -65,7 +65,7 @@ map.addLayer(markers);
 
     ![image](https://raw.githubusercontent.com/adammertel/Leaflet.MarkerCluster.PlacementStrategies/master/assets/img_strategy_original.png)
 
-**can be changed - _circleSpiralSwitchover variable in the original markerCLuster code*  
+**can be changed - _circleSpiralSwitchover variable in the original markerCluster code*  
 
 
 ### Helping Circles
