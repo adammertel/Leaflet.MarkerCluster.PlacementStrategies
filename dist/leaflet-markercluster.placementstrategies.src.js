@@ -1,7 +1,12 @@
+
+/*
+  markerCluster placement-strategies subplugin for leaflet
+  https://github.com/adammertel/Leaflet.RegularGridCluster
+  Adam Mertel | univie
+*/
 'use strict';
 
 L.MarkerCluster.include({
-
   spiderfy: function spiderfy() {
     if (this._group._spiderfied === this || this._group._inZoomAnimation) {
       return;
@@ -29,7 +34,6 @@ L.MarkerCluster.include({
     this._clockHelpingGeometries = [];
 
     switch (this._group.options.elementsPlacementStrategy) {
-
       case 'default':
         if (childMarkers.length >= this._circleSpiralSwitchover) {
           positions = this._generatePointsSpiral(childMarkers.length, center);
@@ -172,7 +176,6 @@ L.MarkerCluster.include({
 
   _createHelpingCircle: function _createHelpingCircle(center, radius) {
     if (this._group.options.helpingCircles) {
-
       var clockCircleStyle = { radius: radius };
 
       if (!this._group.options.clockHelpingCircleOptions.fill) {
@@ -283,7 +286,6 @@ L.MarkerCluster.include({
 
     return res;
   }
-
 });
 'use strict';
 
