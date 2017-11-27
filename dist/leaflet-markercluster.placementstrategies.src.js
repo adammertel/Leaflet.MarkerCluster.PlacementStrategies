@@ -288,10 +288,10 @@ L.MarkerCluster.include({
 'use strict';
 
 L.MarkerClusterGroup.include({
-
   options: {
     maxClusterRadius: 80,
     iconCreateFunction: null,
+    clusterPane: L.Marker.prototype.options.pane,
 
     spiderfyOnMaxZoom: true,
     showCoverageOnHover: true,
@@ -334,5 +334,4 @@ L.MarkerClusterGroup.include({
     chunkProgress: null,
     polygonOptions: {}
   }
-
 });

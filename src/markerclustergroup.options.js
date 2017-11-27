@@ -1,10 +1,10 @@
 /*global L:true*/
 
 L.MarkerClusterGroup.include({
-  
   options: {
     maxClusterRadius: 80, //A cluster will cover at most this many pixels from its center
     iconCreateFunction: null,
+    clusterPane: L.Marker.prototype.options.pane,
 
     spiderfyOnMaxZoom: true,
     showCoverageOnHover: true,
@@ -25,7 +25,6 @@ L.MarkerClusterGroup.include({
     // 'clock' - fills circles around the cluster marker in the style of clocks
     // 'clock-concentric' - in case of one circle, elements are places based on the concentric style, more circles are in clock style
     elementsPlacementStrategy: 'clock-concentric',
-
 
     // Options that are valid for placement strategies 'concentric', 'clock' and 'clock-concentric'
     // Number of elements in the first circle
@@ -58,7 +57,6 @@ L.MarkerClusterGroup.include({
     // Increase to increase the distance away that spiderfied markers appear from the center
     spiderfyDistanceMultiplier: 1,
 
-
     // Make it possible to specify a polyline options on a spider leg
     spiderLegPolylineOptions: { weight: 1.5, color: '#222', opacity: 0.5 },
 
@@ -71,5 +69,4 @@ L.MarkerClusterGroup.include({
     // Options to pass to the L.Polygon constructor
     polygonOptions: {}
   }
-
 });
