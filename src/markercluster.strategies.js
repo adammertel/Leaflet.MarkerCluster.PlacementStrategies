@@ -1,8 +1,7 @@
 /*global L:true*/
 
 L.MarkerCluster.include({
-
-  spiderfy: function () {
+  spiderfy: function() {
     if (this._group._spiderfied === this || this._group._inZoomAnimation) {
       return;
     }
@@ -17,9 +16,9 @@ L.MarkerCluster.include({
       center.y += 10;
     }
 
-    for (var chmi in childMarkers){
+    for (var chmi in childMarkers) {
       if (childMarkers[chmi].setStyle) {
-        childMarkers[chmi].setStyle({className: 'clustered-element'});
+        childMarkers[chmi].setStyle({ className: 'clustered-element' });
       }
     }
 
@@ -32,48 +31,59 @@ L.MarkerCluster.include({
 
     // applies chosen placement strategy
     switch (this._group.options.elementsPlacementStrategy) {
+      case 'default':
+        if (childMarkers.length >= this._circleSpiralSwitchover) {
+          positions = this._generatePointsSpiral(childMarkers.length, center);
+        } else {
+          positions = this._generatePointsCircle(childMarkers.length, center);
+        }
+        break;
 
-    case 'default':
-      if (childMarkers.length >= this._circleSpiralSwitchover) {
+      case 'spiral':
         positions = this._generatePointsSpiral(childMarkers.length, center);
-      } else {
+        break;
+
+      case 'one-circle':
         positions = this._generatePointsCircle(childMarkers.length, center);
-      }
-      break;
+        break;
 
-    case 'spiral':
-      positions = this._generatePointsSpiral(childMarkers.length, center);
-      break;
+      case 'concentric':
+        positions = this._generatePointsConcentricCircles(
+          childMarkers.length,
+          center
+        );
+        break;
 
-    case 'one-circle':
-      positions = this._generatePointsCircle(childMarkers.length, center);
-      break;
+      case 'clock':
+        positions = this._generatePointsClocksCircles(
+          childMarkers.length,
+          center,
+          false
+        );
+        break;
 
-    case 'concentric':
-      positions = this._generatePointsConcentricCircles(childMarkers.length, center);
-      break;
+      case 'clock-concentric':
+        positions = this._generatePointsClocksCircles(
+          childMarkers.length,
+          center,
+          true
+        );
+        break;
 
-    case 'clock':
-      positions = this._generatePointsClocksCircles(childMarkers.length, center, false);
-      break;
+      case 'original-locations':
+        positions = this._getOriginalLocations(childMarkers, this._group._map);
+        break;
 
-    case 'clock-concentric':
-      positions = this._generatePointsClocksCircles(childMarkers.length, center, true);
-      break;
-
-    case 'original-locations':
-      positions = this._getOriginalLocations(childMarkers, this._group._map);
-      break;
-
-    default:
-      console.log('!!unknown placement strategy value. Allowed strategy names are : "default", "spiral", "one-circle", "concentric", "clock" and "clock-concentric" ');
+      default:
+        console.log(
+          '!!unknown placement strategy value. Allowed strategy names are : "default", "spiral", "one-circle", "concentric", "clock" and "clock-concentric" '
+        );
     }
 
     this._animationSpiderfy(childMarkers, positions);
   },
 
-
-  unspiderfy: function (zoomDetails) {
+  unspiderfy: function(zoomDetails) {
     /// <param Name="zoomDetails">Argument from zoomanim if being called in a zoom animation or null otherwise</param>
     if (this._group._inZoomAnimation) {
       return;
@@ -88,9 +98,12 @@ L.MarkerCluster.include({
     this._group._spiderfied = null;
   },
 
-  _generatePointsCircle: function (count, centerPt) {
-    const circumference = this._group.options.spiderfyDistanceMultiplier * this._circleFootSeparation * (2 + count),
-      legLength = circumference / this._2PI,  //radius from circumference
+  _generatePointsCircle: function(count, centerPt) {
+    const circumference =
+        this._group.options.spiderfyDistanceMultiplier *
+        this._circleFootSeparation *
+        (2 + count),
+      legLength = circumference / this._2PI, //radius from circumference
       angleStep = this._2PI / count,
       res = [];
 
@@ -100,18 +113,24 @@ L.MarkerCluster.include({
 
     for (i = count - 1; i >= 0; i--) {
       angle = this._circleStartAngle + i * angleStep;
-      res[i] = new L.Point(centerPt.x + legLength * Math.cos(angle), centerPt.y + legLength * Math.sin(angle))._round();
+      res[i] = new L.Point(
+        centerPt.x + legLength * Math.cos(angle),
+        centerPt.y + legLength * Math.sin(angle)
+      )._round();
     }
 
     return res;
   },
 
-  _generatePointsSpiral: function (count, centerPt) {
-    const spiderfyDistanceMultiplier = this._group.options.spiderfyDistanceMultiplier,
+  _generatePointsSpiral: function(count, centerPt) {
+    const spiderfyDistanceMultiplier = this._group.options
+        .spiderfyDistanceMultiplier,
       separation = spiderfyDistanceMultiplier * this._spiralFootSeparation,
-      lengthFactor = spiderfyDistanceMultiplier * this._spiralLengthFactor * this._2PI,
+      lengthFactor =
+        spiderfyDistanceMultiplier * this._spiralLengthFactor * this._2PI,
       res = [];
-    let i, angle = 0;
+    let i,
+      angle = 0;
     let legLength = spiderfyDistanceMultiplier * this._spiralLengthStart;
 
     res.length = count;
@@ -119,14 +138,22 @@ L.MarkerCluster.include({
     // Higher index, closer position to cluster center.
     for (i = count - 1; i >= 0; i--) {
       angle += separation / legLength + i * 0.0005;
-      res[i] = new L.Point(centerPt.x + legLength * Math.cos(angle), centerPt.y + legLength * Math.sin(angle))._round();
+      res[i] = new L.Point(
+        centerPt.x + legLength * Math.cos(angle),
+        centerPt.y + legLength * Math.sin(angle)
+      )._round();
       legLength += lengthFactor / angle;
     }
     return res;
   },
 
   // auxiliary method - returns placement of vertex of given regular n-side polygon
-  _regularPolygonVertexPlacement: function (vertexNo, totalVertices, centerPt, distanceFromCenter) {
+  _regularPolygonVertexPlacement: function(
+    vertexNo,
+    totalVertices,
+    centerPt,
+    distanceFromCenter
+  ) {
     const deltaAngle = this._2PI / totalVertices;
     let thisAngle = deltaAngle * vertexNo;
 
@@ -139,12 +166,11 @@ L.MarkerCluster.include({
       centerPt.x + Math.cos(thisAngle) * distanceFromCenter,
       centerPt.y + Math.sin(thisAngle) * distanceFromCenter
     )._round();
-
   },
 
   // clock strategy placement.
   // regularFirstCicle parameter - true if first elements in the first circle are placed regularly
-  _generatePointsClocksCircles: function (count, centerPt, regularFirstCircle) {
+  _generatePointsClocksCircles: function(count, centerPt, regularFirstCircle) {
     const res = [];
     const fce = this._group.options.firstCircleElements;
 
@@ -177,9 +203,19 @@ L.MarkerCluster.include({
       }
 
       if (regularFirstCircle && iCircleNumber === 1) {
-        res[i - 1] = this._regularPolygonVertexPlacement(elementOrder - 1, Math.min(fce, count), centerPt, iCircleDistance);
+        res[i - 1] = this._regularPolygonVertexPlacement(
+          elementOrder - 1,
+          Math.min(fce, count),
+          centerPt,
+          iCircleDistance
+        );
       } else {
-        res[i - 1] = this._regularPolygonVertexPlacement(elementOrder - 1, iCircleNoElements, centerPt, iCircleDistance);
+        res[i - 1] = this._regularPolygonVertexPlacement(
+          elementOrder - 1,
+          iCircleNoElements,
+          centerPt,
+          iCircleDistance
+        );
       }
     }
 
@@ -187,19 +223,21 @@ L.MarkerCluster.include({
   },
 
   // method for creating and storing helping circles for clock/concentric circles strategy
-  _createHelpingCircle: function (center, radius) {
+  _createHelpingCircle: function(center, radius) {
     if (this._group.options.helpingCircles) {
-
-      const clockCircleStyle = {radius: radius};
+      const clockCircleStyle = { radius: radius };
 
       // keeping without fill if it is not defined
-      if (!this._group.options.clockHelpingCircleOptions.fill ) {
+      if (!this._group.options.clockHelpingCircleOptions.fill) {
         this._group.options.clockHelpingCircleOptions.fillColor = 'none';
       }
       console.log(this._group.options.clockHelpingCircleOptions);
       L.extend(clockCircleStyle, this._group.options.clockHelpingCircleOptions);
 
-      const clockCircle = new L.CircleMarker(this._group._map.layerPointToLatLng(center), clockCircleStyle);
+      const clockCircle = new L.CircleMarker(
+        this._group._map.layerPointToLatLng(center),
+        clockCircleStyle
+      );
       this._group._featureGroup.addLayer(clockCircle);
       this._clockHelpingGeometries.push(clockCircle);
     }
@@ -207,7 +245,7 @@ L.MarkerCluster.include({
 
   // concentric circles strategy placement.
   // divide elements of cluster into concentric zones based on elementsMultiplier and firstCircleElements parameters
-  _generatePointsConcentricCircles: function (count, centerPt) {
+  _generatePointsConcentricCircles: function(count, centerPt) {
     const res = [];
 
     const fce = this._group.options.firstCircleElements,
@@ -233,7 +271,7 @@ L.MarkerCluster.include({
       {
         distance: (3 * distanceSurplus + baseDistance) * dm * dm * dm,
         noElements: 0
-      },
+      }
     ];
 
     // number of points in the second circle
@@ -242,7 +280,8 @@ L.MarkerCluster.include({
 
       if (
         (fce < count && count < 2 * fce) ||
-        (fce + secondCircleElements < count && count < 2 * fce + secondCircleElements)
+        (fce + secondCircleElements < count &&
+          count < 2 * fce + secondCircleElements)
       ) {
         circles[1].noElements = fce;
       }
@@ -253,54 +292,93 @@ L.MarkerCluster.include({
       circles[2].noElements = Math.round(fce * elementsMultiplier);
     }
     if (count > fce + 2 * Math.round(fce * elementsMultiplier)) {
-      circles[2].noElements = Math.round(fce * elementsMultiplier * elementsMultiplier);
+      circles[2].noElements = Math.round(
+        fce * elementsMultiplier * elementsMultiplier
+      );
     }
-    if (count > fce + Math.round(fce * elementsMultiplier) + Math.round(fce * elementsMultiplier * elementsMultiplier)) {
+    if (
+      count >
+      fce +
+        Math.round(fce * elementsMultiplier) +
+        Math.round(fce * elementsMultiplier * elementsMultiplier)
+    ) {
       circles[2].noElements = Math.round(fce * elementsMultiplier);
     }
-    if (count > fce + 2 * Math.round(fce * elementsMultiplier) + Math.round(fce * elementsMultiplier * elementsMultiplier)) {
-      circles[2].noElements = Math.round(fce * elementsMultiplier * elementsMultiplier);
+    if (
+      count >
+      fce +
+        2 * Math.round(fce * elementsMultiplier) +
+        Math.round(fce * elementsMultiplier * elementsMultiplier)
+    ) {
+      circles[2].noElements = Math.round(
+        fce * elementsMultiplier * elementsMultiplier
+      );
     }
 
     // number of points in the first circle
-    circles[0].noElements = Math.min(count - circles[1].noElements - circles[2].noElements, fce);
+    circles[0].noElements = Math.min(
+      count - circles[1].noElements - circles[2].noElements,
+      fce
+    );
 
     // number of points in the fourth circle
-    circles[3].noElements = Math.max(count - circles[0].noElements - circles[1].noElements - circles[2].noElements, 0);
-
+    circles[3].noElements = Math.max(
+      count -
+        circles[0].noElements -
+        circles[1].noElements -
+        circles[2].noElements,
+      0
+    );
 
     let prevCirclesEls = 0; // number of elements in the finished circles
     let iCircle = circles[0]; // curretly driven circle
 
     // iterating elements
     for (var i = 1; i <= count; i++) {
-
       // changing to the new circle
       if (circles[1].noElements > 0) {
         if (i > circles[0].noElements) {
           iCircle = circles[1];
           prevCirclesEls = circles[0].noElements;
         }
-        if (i > (circles[0].noElements + circles[1].noElements) && circles[2].noElements > 0) {
+        if (
+          i > circles[0].noElements + circles[1].noElements &&
+          circles[2].noElements > 0
+        ) {
           iCircle = circles[2];
           prevCirclesEls = circles[0].noElements + circles[1].noElements;
         }
-        if (i > (circles[0].noElements + circles[1].noElements + circles[2].noElements) && circles[3].noElements > 0) {
+        if (
+          i >
+            circles[0].noElements +
+              circles[1].noElements +
+              circles[2].noElements &&
+          circles[3].noElements > 0
+        ) {
           iCircle = circles[3];
-          prevCirclesEls = circles[0].noElements - circles[1].noElements - circles[2].noElements;
+          prevCirclesEls =
+            circles[0].noElements -
+            circles[1].noElements -
+            circles[2].noElements;
         }
       }
 
-      res[i - 1] = this._regularPolygonVertexPlacement(i - prevCirclesEls, iCircle.noElements, centerPt, iCircle.distance);
+      res[i - 1] = this._regularPolygonVertexPlacement(
+        i - prevCirclesEls,
+        iCircle.noElements,
+        centerPt,
+        iCircle.distance
+      );
     }
 
-    circles.filter(c => c.noElements).map(c => this._createHelpingCircle(centerPt, c.distance));
+    circles
+      .filter(c => c.noElements)
+      .map(c => this._createHelpingCircle(centerPt, c.distance));
 
     return res;
   },
 
-
-  _removeClockHelpingCircles: function (fg) {
+  _removeClockHelpingCircles: function(fg) {
     for (var hg in this._clockHelpingGeometries) {
       fg.removeLayer(this._clockHelpingGeometries[hg]);
     }
@@ -309,11 +387,10 @@ L.MarkerCluster.include({
   _getOriginalLocations: function(childMarkers, map) {
     var res = [];
 
-    childMarkers.forEach(function (marker) {
+    childMarkers.forEach(function(marker) {
       res.push(map.latLngToLayerPoint(marker.getLatLng()));
     });
 
     return res;
   }
-
 });
