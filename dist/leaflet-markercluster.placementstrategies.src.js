@@ -1,7 +1,7 @@
 
 /*
-  markerCluster placement-strategies subplugin for leaflet
-  https://github.com/adammertel/Leaflet.RegularGridCluster
+  markerCluster placement-strategies subplugin for leaflet.markercluster
+  https://github.com/adammertel/Leaflet.MarkerCluster.PlacementStrategies
   Adam Mertel | univie
 */
 'use strict';

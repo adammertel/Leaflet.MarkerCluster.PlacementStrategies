@@ -1,24 +1,14 @@
 {
   "name": "leaflet.markercluster.placementstrategies",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description":
     "leaflet.markercluster subplugin that defines more strategies to place clustered markers",
   "keywords": ["leaflet", "markercluster", "placement", "clustering"],
   "author": "Adam Mertel, University of Vienna",
+  "contributors": ["kuuup-at-work"],
   "license": "ISC",
   "main": "dist/leaflet-markercluster.placementstrategies.js",
-  "devDependencies": {
-    "babel-cli": "^6.24.1",
-    "babel-plugin-transform-remove-console": "^6.8.4",
-    "babel-preset-env": "^1.6.0",
-    "babel-preset-es2015": "^6.24.1",
-    "concat-cli": "^4.0.0",
-    "copyfiles": "^1.0.0",
-    "eslint": "^4.2.0",
-    "mkdirp": "latest",
-    "npm-run-all": "^4.0.2",
-    "onchange": "^2.5.0"
-  },
+  "devDependencies": {},
   "files": ["dist", "src", "demo"],
   "scripts": {
     "banners": "run-s banner-js-src banner-js",
@@ -26,15 +16,22 @@
       "concat-cli -f banner dist/leaflet-markercluster.placementstrategies.src.js -o dist/leaflet-markercluster.placementstrategies.src.js",
     "banner-js":
       "concat-cli -f banner dist/leaflet-markercluster.placementstrategies.js -o dist/leaflet-markercluster.placementstrategies.js",
-
     "create-dist-folder": "mkdirp dist",
     "babel":
       "babel src --out-file dist/leaflet-markercluster.placementstrategies.src.js",
     "minify":
-      "babel --plugins transform-remove-console dist/leaflet-markercluster.placementstrategies.src.js --out-file dist/leaflet-markercluster.placementstrategies.js --minified",
+      "babel --plugins=transform-remove-console,minify-mangle-names dist/leaflet-markercluster.placementstrategies.src.js --out-file dist/leaflet-markercluster.placementstrategies.js --minified",
     "onchange": "onchange src/**/*.js -- npm run build",
     "build": "run-s create-dist-folder babel minify banners",
     "start": "run-p create-dist-folder onchange build"
+  },
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-minify-mangle-names": "^0.4.0",
+    "babel-plugin-transform-remove-console": "^6.9.1",
+    "babel-preset-env": "^1.6.1",
+    "concat-cli": "^4.0.0",
+    "npm-run-all": "^4.1.2",
+    "onchange": "^3.3.0"
   }
 }
-
