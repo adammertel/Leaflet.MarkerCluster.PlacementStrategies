@@ -1,26 +1,32 @@
 {
   "name": "leaflet.markercluster.placementstrategies",
-  "version": "0.1.5",
-  "description":
-    "leaflet.markercluster subplugin that defines more strategies to place clustered markers",
-  "keywords": ["leaflet", "markercluster", "placement", "clustering"],
+  "version": "0.1.6",
+  "description": "leaflet.markercluster subplugin that defines more strategies to place clustered markers",
+  "keywords": [
+    "leaflet",
+    "markercluster",
+    "placement",
+    "clustering"
+  ],
   "author": "Adam Mertel, University of Vienna",
-  "contributors": ["kuuup-at-work"],
+  "contributors": [
+    "kuuup-at-work"
+  ],
   "license": "ISC",
   "main": "dist/leaflet-markercluster.placementstrategies.js",
   "devDependencies": {},
-  "files": ["dist", "src", "demo"],
+  "files": [
+    "dist",
+    "src",
+    "demo"
+  ],
   "scripts": {
     "banners": "run-s banner-js-src banner-js",
-    "banner-js-src":
-      "concat-cli -f banner dist/leaflet-markercluster.placementstrategies.src.js -o dist/leaflet-markercluster.placementstrategies.src.js",
-    "banner-js":
-      "concat-cli -f banner dist/leaflet-markercluster.placementstrategies.js -o dist/leaflet-markercluster.placementstrategies.js",
+    "banner-js-src": "concat-cli -f banner dist/leaflet-markercluster.placementstrategies.src.js -o dist/leaflet-markercluster.placementstrategies.src.js",
+    "banner-js": "concat-cli -f banner dist/leaflet-markercluster.placementstrategies.js -o dist/leaflet-markercluster.placementstrategies.js",
     "create-dist-folder": "mkdirp dist",
-    "babel":
-      "babel src --out-file dist/leaflet-markercluster.placementstrategies.src.js",
-    "minify":
-      "babel --plugins=transform-remove-console,minify-mangle-names dist/leaflet-markercluster.placementstrategies.src.js --out-file dist/leaflet-markercluster.placementstrategies.js --minified",
+    "babel": "babel src --out-file dist/leaflet-markercluster.placementstrategies.src.js",
+    "minify": "babel --plugins=transform-remove-console,minify-mangle-names dist/leaflet-markercluster.placementstrategies.src.js --out-file dist/leaflet-markercluster.placementstrategies.js --minified",
     "onchange": "onchange src/**/*.js -- npm run build",
     "build": "run-s create-dist-folder babel minify banners",
     "start": "run-p create-dist-folder onchange build"
