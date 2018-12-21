@@ -1,352 +1,389 @@
 <html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-16" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.4/leaflet.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.Default.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=PT+Sans+Narrow"
+      rel="stylesheet"
+    />
 
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-16">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.1/leaflet.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.3.0/MarkerCluster.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.3.0/MarkerCluster.Default.css"
-  />
-  <link href="https://fonts.googleapis.com/css?family=PT+Sans+Narrow" rel="stylesheet">
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.4/leaflet.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/leaflet.markercluster.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"
+    ></script>
 
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.1/leaflet.js"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.3.0/leaflet.markercluster.js"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="../dist/leaflet-markercluster.placementstrategies.src.js"></script>
+  </head>
 
-  <script src="../dist/leaflet-markercluster.placementstrategies.src.js"></script>
-
-</head>
-
-<style>
-  body {
-    margin: 0px;
-    font-family: 'PT Sans Narrow', sans-serif;
-  }
-
-  #map-content {
-    width: 100%;
-    height: 100%;
-    margin: 0
-  }
-
-  #panel {
-    position: absolute;
-    height: 90%;
-    width: 150px;
-    background-color: white;
-    top: 2%;
-    right: 2%;
-    z-index: 999;
-    padding-left: 15px;
-    opacity: 0.9;
-    border: 15px solid white;
-    border-opacity: 0;
-    font-size: 80%;
-  }
-
-  .marker-cluster {
-    opacity: 1 !important
-  }
-
-  .active-cluster-element {
-    opacity: 0.2;
-  }
-
-  .select-row {
-    margin-top: 4px;
-    margin-bottom: 1px;
-    margin-left: 5px
-  }
-
-  h4 {
-    margin-bottom: 2px
-  }
-
-  select {
-    margin-left: 5px
-  }
-</style>
-
-
-<body>
-
-  <div id="map-content"></div>
-
-  <div id="panel">
-    <h4>GENERAL</h4>
-    <p class="select-row">elementsPlacementStrategy:</p>
-    <select id="strategy-select">
-      <option value="default">default</option>
-      <option value="spiral">spiral</option>
-      <option value="one-circle">one-circle</option>
-      <option value="clock">clock</option>
-      <option value="clock-concentric" selected>clock-concentric</option>
-      <option value="concentric">concentric</option>
-      <option value="original-locations">original-locations</option>
-    </select>
-
-    <p class="select-row">opacity of base map:</p>
-    <select id="mapopacity-select">
-      <option value="0.1">0.1</option>
-      <option value="0.3">0.3</option>
-      <option value="0.5">0.5</option>
-      <option value="0.8" selected>0.8</option>
-      <option value="1">1</option>
-    </select>
-
-    <p class="select-row">base map:</p>
-    <select id="base-map">
-      <option value="osm" selected>OSM</option>
-      <option value="osmBW">OSM BlackWhite</option>
-      <option value="EsriWorldImagery">ESRI satellite</option>
-    </select>
-
-    <h4>ELEMENTS</h4>
-
-    <p class="select-row">shapes:</p>
-    <select id="elms-shape-select">
-      <option value="circle" selected>circle</option>
-      <option value="marker">marker</option>
-    </select>
-
-    <p class="select-row">spiderfyDistanceSurplus:</p>
-    <select id="elms-surplus-select">
-      <option value="0">0</option>
-      <option value="5">5</option>
-      <option value="10">10</option>
-      <option value="15">15</option>
-      <option value="20">20</option>
-      <option value="25" selected>25</option>
-      <option value="30">30</option>
-      <option value="35">35</option>
-    </select>
-
-    <p class="select-row">distanceMultiplier:</p>
-    <select id="elms-distance-select">
-      <option value="1" selected>1</option>
-      <option value="1.1">1.1</option>
-      <option value="1.3">1.3</option>
-      <option value="1.5">1.5</option>
-      <option value="2">2</option>
-    </select>
-
-
-    <p class="select-row">firstCircleElements:</p>
-    <select id="elms-fcircle-select">
-      <option value="6">6</option>
-      <option value="8">8</option>
-      <option value="10" selected>10</option>
-      <option value="12">12</option>
-    </select>
-
-    <p class="select-row">elementsMultiplier:</p>
-    <select id="elms-multiplier-select">
-      <option value="1.2">1.2</option>
-      <option value="1.4">1.4</option>
-      <option value="1.5">1.5</option>
-      <option value="1.6" selected>1.6</option>
-      <option value="1.7">1.7</option>
-      <option value="1.8">1.8</option>
-      <option value="1.9">1.9</option>
-      <option value="2">2</option>
-    </select>
-
-    <h4>HELPING CIRCLE</h4>
-
-    <p class="select-row">helpingCircles :</p>
-    <select id="hcircle-turn-select">
-      <option value='true' selected>true</option>
-      <option value='false'>false</option>
-    </select>
-
-    <p class="select-row">color:</p>
-    <select id="hcircle-color-select">
-      <option value='black'>black</option>
-      <option value='dimgray'>dimgray</option>
-      <option value='grey' selected>grey</option>
-      <option value='darkgrey'>darkgrey</option>
-      <option value='silver'>silver</option>
-    </select>
-
-    <p class="select-row">stroke weight:</p>
-    <select id="hcircle-weight-select">
-      <option value='0.2'>0.2</option>
-      <option value='0.4'>0.4</option>
-      <option value='0.6'>0.6</option>
-      <option value='0.8'>0.8</option>
-      <option value='1'>1</option>
-      <option value='1.2'>1.2</option>
-      <option value='1.4'>1.4</option>
-      <option value='1.6'>1.6</option>
-      <option value='1.8'>1.8</option>
-      <option value='2'>2</option>
-      <option value='2.2'>2.2</option>
-      <option value='2.4'>2.4</option>
-      <option value='2.6'>2.6</option>
-      <option value='2.8'>2.8</option>
-      <option value='3' selected>3</option>
-      <option value='3.2'>3.2</option>
-      <option value='3.4'>3.4</option>
-      <option value='3.6'>3.6</option>
-      <option value='3.8'>3.8</option>
-    </select>
-
-    <p class="select-row">stroke opacity:</p>
-    <select id="hcircle-opacity-select">
-      <option value='0.1'>0.1</option>
-      <option value='0.2'>0.2</option>
-      <option value='0.3'>0.3</option>
-      <option value='0.4'>0.4</option>
-      <option value='0.5' selected>0.5</option>
-      <option value='0.6'>0.6</option>
-      <option value='0.7'>0.7</option>
-      <option value='0.8'>0.8</option>
-      <option value='0.9'>0.9</option>
-      <option value='1'>1</option>
-    </select>
-
-    <p class="select-row">stroke style:</p>
-    <select id="hcircle-style-select">
-      <option value='0'>solid</option>
-      <option value='.1 4'>.1 4</option>
-      <option value='.2 4'>.2 4</option>
-      <option value='.4 6'>.4 6</option>
-      <option value='.6 6'>.6 6</option>
-      <option value='.8 10'>.8 10</option>
-      <option value='3'>3</option>
-      <option value='5' selected>5</option>
-      <option value='6'>6</option>
-      <option value='6 7'>6 7</option>
-      <option value='6 7.5'>6 7.5</option>
-      <option value='6 8'>6 8</option>
-      <option value='7'>7</option>
-      <option value='3 5'>3 5</option>
-      <option value='3 7'>3 7</option>
-      <option value='2 4'>2 4</option>
-      <option value='2 6'>2 6</option>
-      <option value='2 8'>2 8</option>
-      <option value='4 8'>4 8</option>
-      <option value='10 4 1 4'>10 4 1 4</option>
-      <option value='10 6 1 6'>10 4 1 4</option>
-    </select>
-
-    <p>
-      <i> Data: random points </i>
-    </p>
-  </div>
-  <script>
-
-    // global variables
-    var map;
-
-    // creates extent for random data
-    var maxX = 49, minX = 48.8, minY = 18.0, maxY = 18.3;
-    var mapZoom = 12;
-    var mapPosition = [(maxX + minX) / 2, (maxY + minY) / 2];
-
-    // creating random data
-    var noTestData = 7000;
-    var data = [];
-    for (var i = 0; i < noTestData; i++) {
-      data.push({
-        x: minX + Math.random() * (maxX - minX),
-        y: minY + Math.random() * (maxY - minY),
-        type: Math.floor(Math.random() * 6)
-      });
+  <style>
+    body {
+      margin: 0px;
+      font-family: "PT Sans Narrow", sans-serif;
     }
 
-    // colorbrewer 2
-    var colors = ['#e41a1c', '#377eb8', '#4daf4a', '#984ea3', '#ff7f00', '#ffff33'];
+    #map-content {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+    }
 
-    var circleStyle = function (point) {
+    #panel {
+      position: absolute;
+      height: 90%;
+      width: 150px;
+      background-color: white;
+      top: 2%;
+      right: 2%;
+      z-index: 999;
+      padding-left: 15px;
+      opacity: 0.9;
+      border: 15px solid white;
+      border-opacity: 0;
+      font-size: 80%;
+    }
 
-      return {
-        fillColor: colors[point.type],
-        radius: 8,
-        stroke: true,
-        color: 'grey',
-        weight: 2.5,
-        opacity: 0.7,
-        fillOpacity: 1,
-        className: 'marker'
-      };
-    };
+    .marker-cluster {
+      opacity: 1 !important;
+    }
 
-    $(document).ready(function () {
-      refreshMap();
-      $('select').change(function () {
-        refreshMap()
-      })
-    });
+    .active-cluster-element {
+      opacity: 0.2;
+    }
 
+    .select-row {
+      margin-top: 4px;
+      margin-bottom: 1px;
+      margin-left: 5px;
+    }
 
-    function refreshMap() {
-      var baseTiles = {
-        'osm': L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-          attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-          opacity: parseFloat($('#mapopacity-select').val())
-        }),
-        'osmBW': L.tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', {
-          attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-          opacity: parseFloat($('#mapopacity-select').val())
-        }),
-        'EsriWorldImagery': L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-          attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
-          opacity: parseFloat($('#mapopacity-select').val())
-        })
+    h4 {
+      margin-bottom: 2px;
+    }
 
-      }[$('#base-map').val()];
+    select {
+      margin-left: 5px;
+    }
+  </style>
 
-      // setting map
-      if (map) { map.remove(); }
+  <body>
+    <div id="map-content"></div>
 
-      map = L.map('map-content', { maxZoom: 14 }).setView(mapPosition, mapZoom);
-      map.on('zoomend', function () { mapZoom = map.getZoom(); });
-      map.on('moveend', function () { mapPosition = map.getCenter(); });
+    <div id="panel">
+      <h4>GENERAL</h4>
+      <p class="select-row">elementsPlacementStrategy:</p>
+      <select id="strategy-select">
+        <option value="default">default</option>
+        <option value="spiral">spiral</option>
+        <option value="one-circle">one-circle</option>
+        <option value="clock">clock</option>
+        <option value="clock-concentric" selected>clock-concentric</option>
+        <option value="concentric">concentric</option>
+        <option value="original-locations">original-locations</option>
+      </select>
 
-      baseTiles.addTo(map);
+      <p class="select-row">opacity of base map:</p>
+      <select id="mapopacity-select">
+        <option value="0.1">0.1</option>
+        <option value="0.3">0.3</option>
+        <option value="0.5">0.5</option>
+        <option value="0.8" selected>0.8</option>
+        <option value="1">1</option>
+      </select>
 
-      var options = {
-        spiderLegPolylineOptions: { weight: 0 },
-        clockHelpingCircleOptions: {
-          weight: $('#hcircle-weight-select').val(),
-          opacity: $('#hcircle-opacity-select').val(),
-          color: $('#hcircle-color-select').val(),
-          dashArray: $('#hcircle-style-select').val()
-        },
+      <p class="select-row">base map:</p>
+      <select id="base-map">
+        <option value="osm" selected>OSM</option>
+        <option value="osmBW">OSM BlackWhite</option>
+        <option value="EsriWorldImagery">ESRI satellite</option>
+      </select>
 
-        helpingCircles: $('#hcircle-turn-select').val() === 'true',
-        elementsPlacementStrategy: $('#strategy-select').val(),
+      <h4>ELEMENTS</h4>
 
-        spiderfyDistanceSurplus: parseInt($('#elms-surplus-select').val()),
-        spiderfyDistanceMultiplier: parseFloat($('#elms-distance-select').val()),
+      <p class="select-row">shapes:</p>
+      <select id="elms-shape-select">
+        <option value="circle" selected>circle</option>
+        <option value="marker">marker</option>
+      </select>
 
-        elementsMultiplier: parseFloat($('#elms-multiplier-select').val()),
-        firstCircleElements: parseInt($('#elms-fcircle-select').val())
+      <p class="select-row">spiderfyDistanceSurplus:</p>
+      <select id="elms-surplus-select">
+        <option value="0">0</option>
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="20">20</option>
+        <option value="25" selected>25</option>
+        <option value="30">30</option>
+        <option value="35">35</option>
+      </select>
+
+      <p class="select-row">distanceMultiplier:</p>
+      <select id="elms-distance-select">
+        <option value="1" selected>1</option>
+        <option value="1.1">1.1</option>
+        <option value="1.3">1.3</option>
+        <option value="1.5">1.5</option>
+        <option value="2">2</option>
+      </select>
+
+      <p class="select-row">firstCircleElements:</p>
+      <select id="elms-fcircle-select">
+        <option value="6">6</option>
+        <option value="8">8</option>
+        <option value="10" selected>10</option>
+        <option value="12">12</option>
+      </select>
+
+      <p class="select-row">elementsMultiplier:</p>
+      <select id="elms-multiplier-select">
+        <option value="1.2">1.2</option>
+        <option value="1.4">1.4</option>
+        <option value="1.5">1.5</option>
+        <option value="1.6" selected>1.6</option>
+        <option value="1.7">1.7</option>
+        <option value="1.8">1.8</option>
+        <option value="1.9">1.9</option>
+        <option value="2">2</option>
+      </select>
+
+      <h4>HELPING CIRCLE</h4>
+
+      <p class="select-row">helpingCircles :</p>
+      <select id="hcircle-turn-select">
+        <option value="true" selected>true</option>
+        <option value="false">false</option>
+      </select>
+
+      <p class="select-row">color:</p>
+      <select id="hcircle-color-select">
+        <option value="black">black</option>
+        <option value="dimgray">dimgray</option>
+        <option value="grey" selected>grey</option>
+        <option value="darkgrey">darkgrey</option>
+        <option value="silver">silver</option>
+      </select>
+
+      <p class="select-row">stroke weight:</p>
+      <select id="hcircle-weight-select">
+        <option value="0.2">0.2</option>
+        <option value="0.4">0.4</option>
+        <option value="0.6">0.6</option>
+        <option value="0.8">0.8</option>
+        <option value="1">1</option>
+        <option value="1.2">1.2</option>
+        <option value="1.4">1.4</option>
+        <option value="1.6">1.6</option>
+        <option value="1.8">1.8</option>
+        <option value="2">2</option>
+        <option value="2.2">2.2</option>
+        <option value="2.4">2.4</option>
+        <option value="2.6">2.6</option>
+        <option value="2.8">2.8</option>
+        <option value="3" selected>3</option>
+        <option value="3.2">3.2</option>
+        <option value="3.4">3.4</option>
+        <option value="3.6">3.6</option>
+        <option value="3.8">3.8</option>
+      </select>
+
+      <p class="select-row">stroke opacity:</p>
+      <select id="hcircle-opacity-select">
+        <option value="0.1">0.1</option>
+        <option value="0.2">0.2</option>
+        <option value="0.3">0.3</option>
+        <option value="0.4">0.4</option>
+        <option value="0.5" selected>0.5</option>
+        <option value="0.6">0.6</option>
+        <option value="0.7">0.7</option>
+        <option value="0.8">0.8</option>
+        <option value="0.9">0.9</option>
+        <option value="1">1</option>
+      </select>
+
+      <p class="select-row">stroke style:</p>
+      <select id="hcircle-style-select">
+        <option value="0">solid</option>
+        <option value=".1 4">.1 4</option>
+        <option value=".2 4">.2 4</option>
+        <option value=".4 6">.4 6</option>
+        <option value=".6 6">.6 6</option>
+        <option value=".8 10">.8 10</option>
+        <option value="3">3</option>
+        <option value="5" selected>5</option>
+        <option value="6">6</option>
+        <option value="6 7">6 7</option>
+        <option value="6 7.5">6 7.5</option>
+        <option value="6 8">6 8</option>
+        <option value="7">7</option>
+        <option value="3 5">3 5</option>
+        <option value="3 7">3 7</option>
+        <option value="2 4">2 4</option>
+        <option value="2 6">2 6</option>
+        <option value="2 8">2 8</option>
+        <option value="4 8">4 8</option>
+        <option value="10 4 1 4">10 4 1 4</option>
+        <option value="10 6 1 6">10 4 1 4</option>
+      </select>
+
+      <p><i> Data: random points </i></p>
+    </div>
+    <script>
+      // global variables
+      var map;
+
+      // creates extent for random data
+      var maxX = 49,
+        minX = 48.8,
+        minY = 18.0,
+        maxY = 18.3;
+      var mapZoom = 12;
+      var mapPosition = [(maxX + minX) / 2, (maxY + minY) / 2];
+
+      // creating random data
+      var noTestData = 7000;
+      var data = [];
+      for (var i = 0; i < noTestData; i++) {
+        data.push({
+          x: minX + Math.random() * (maxX - minX),
+          y: minY + Math.random() * (maxY - minY),
+          type: Math.floor(Math.random() * 6)
+        });
       }
 
-      console.log(options)
+      // colorbrewer 2
+      var colors = [
+        "#e41a1c",
+        "#377eb8",
+        "#4daf4a",
+        "#984ea3",
+        "#ff7f00",
+        "#ffff33"
+      ];
 
-      var markers = L.markerClusterGroup(options);
+      var circleStyle = function(point) {
+        return {
+          fillColor: colors[point.type],
+          radius: 8,
+          stroke: true,
+          color: "grey",
+          weight: 2.5,
+          opacity: 0.7,
+          fillOpacity: 1,
+          className: "marker"
+        };
+      };
 
-      // parse data
-      for (var di in data) {
-        var point = data[di];
+      $(document).ready(function() {
+        refreshMap();
+        $("select").change(function() {
+          refreshMap();
+        });
+      });
 
-        var marker;
-        if ($('#elms-shape-select').val() === 'circle') {
-          marker = L.circleMarker([point.x, point.y], circleStyle(point));
-        } else {
-          marker = L.marker([point.x, point.y]);
+      function refreshMap() {
+        var baseTiles = {
+          osm: L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
+            attribution:
+              '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+            opacity: parseFloat($("#mapopacity-select").val())
+          }),
+          osmBW: L.tileLayer(
+            "http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png",
+            {
+              attribution:
+                '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+              opacity: parseFloat($("#mapopacity-select").val())
+            }
+          ),
+          EsriWorldImagery: L.tileLayer(
+            "http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+            {
+              attribution:
+                "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
+              opacity: parseFloat($("#mapopacity-select").val())
+            }
+          )
+        }[$("#base-map").val()];
+
+        // setting map
+        if (map) {
+          map.remove();
         }
 
-        markers.addLayer(marker);
+        map = L.map("map-content", { maxZoom: 14 }).setView(
+          mapPosition,
+          mapZoom
+        );
+        map.on("zoomend", function() {
+          mapZoom = map.getZoom();
+        });
+        map.on("moveend", function() {
+          mapPosition = map.getCenter();
+        });
+
+        baseTiles.addTo(map);
+
+        var options = {
+          spiderLegPolylineOptions: { weight: 0 },
+          clockHelpingCircleOptions: {
+            weight: $("#hcircle-weight-select").val(),
+            opacity: $("#hcircle-opacity-select").val(),
+            color: $("#hcircle-color-select").val(),
+            dashArray: $("#hcircle-style-select").val()
+          },
+
+          helpingCircles: $("#hcircle-turn-select").val() === "true",
+          elementsPlacementStrategy: $("#strategy-select").val(),
+
+          spiderfyDistanceSurplus: parseInt($("#elms-surplus-select").val()),
+          spiderfyDistanceMultiplier: parseFloat(
+            $("#elms-distance-select").val()
+          ),
+
+          elementsMultiplier: parseFloat($("#elms-multiplier-select").val()),
+          firstCircleElements: parseInt($("#elms-fcircle-select").val())
+        };
+
+        console.log(options);
+
+        var markers = L.markerClusterGroup(options);
+
+        // parse data
+        for (var di in data) {
+          var point = data[di];
+
+          var marker;
+          if ($("#elms-shape-select").val() === "circle") {
+            marker = L.circleMarker([point.x, point.y], circleStyle(point));
+          } else {
+            marker = L.marker([point.x, point.y]);
+          }
+
+          markers.addLayer(marker);
+        }
+
+        console.log(markers);
+        map.addLayer(markers);
       }
-
-      console.log(markers)
-      map.addLayer(markers);
-    }
-
-  </script>
-</body>
-
+    </script>
+  </body>
 </html>
