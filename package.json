@@ -1,6 +1,6 @@
 {
   "name": "leaflet.markercluster.placementstrategies",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "leaflet.markercluster subplugin that defines more strategies to place clustered markers",
   "keywords": [
     "leaflet",
@@ -14,7 +14,17 @@
   ],
   "license": "ISC",
   "main": "dist/leaflet-markercluster.placementstrategies.js",
-  "devDependencies": {},
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-cli": "^6.26.0",
+    "babel-plugin-minify-mangle-names": "^0.5.0",
+    "babel-plugin-transform-remove-console": "^6.9.4",
+    "babel-preset-env": "^1.7.0",
+    "concat-cli": "^4.0.0",
+    "mkdirp": "^0.5.1",
+    "npm-run-all": "^4.1.5",
+    "onchange": "^5.2.0"
+  },
   "files": [
     "dist",
     "src",
@@ -30,14 +40,5 @@
     "onchange": "onchange src/**/*.js -- npm run build",
     "build": "run-s create-dist-folder babel minify banners",
     "start": "run-p create-dist-folder onchange build"
-  },
-  "dependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-plugin-minify-mangle-names": "^0.4.3",
-    "babel-plugin-transform-remove-console": "^6.9.4",
-    "babel-preset-env": "^1.7.0",
-    "concat-cli": "^4.0.0",
-    "npm-run-all": "^4.1.5",
-    "onchange": "^3.3.0"
   }
 }
