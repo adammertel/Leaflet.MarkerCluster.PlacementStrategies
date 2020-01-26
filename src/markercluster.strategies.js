@@ -6,6 +6,8 @@ L.MarkerCluster.include({
 			return;
 		}
 
+		const options = this._group.options;
+
 		const childMarkers = this.getAllChildMarkers();
 		const group = this._group;
 		const map = group._map;
@@ -16,9 +18,8 @@ L.MarkerCluster.include({
 			center.y += 10;
 		}
 
-		// add a specific className to the spiderfied markers
-		if (this._group.options.className) {
-			const spiderfiedClassName = this._group.options.className;
+		// add options.spiderfiedClassName to the spiderfied markers
+		if (options.spiderfiedClassName) {
 			for (var chmi in childMarkers) {
 				const marker = childMarkers[chmi];
 
@@ -26,13 +27,19 @@ L.MarkerCluster.include({
 				if (marker.getIcon) {
 					const icon = marker.getIcon();
 					if (icon) {
-						icon.options.className = icon.options.className + ' ' + spiderfiedClassName;
+						if (icon.options.className) {
+							if (!icon.options.className.includes(options.spiderfiedClassName)) {
+								icon.options.className += ' ' + options.spiderfiedClassName;
+							}
+						} else {
+							icon.options.className = options.spiderfiedClassName;
+						}
 					}
 
 					//circleMarker
 				} else if (childMarkers[chmi].setStyle) {
 					const classNames = childMarkers[chmi].options.className;
-					childMarkers[chmi].setStyle({ className: classNames + ' ' + spiderfiedClassName });
+					childMarkers[chmi].setStyle({ className: classNames + ' ' + options.spiderfiedClassName });
 				}
 			}
 		}

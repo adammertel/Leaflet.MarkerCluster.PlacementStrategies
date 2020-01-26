@@ -13,6 +13,7 @@ L.MarkerCluster.include({
       return;
     }
 
+    var options = this._group.options;
     var childMarkers = this.getAllChildMarkers();
     var group = this._group;
     var map = group._map;
@@ -21,12 +22,10 @@ L.MarkerCluster.include({
 
     if (!(this._group.getLayers()[0] instanceof L.CircleMarker)) {
       center.y += 10;
-    } // add a specific className to the spiderfied markers
+    } // add options.spiderfiedClassName to the spiderfied markers
 
 
-    if (this._group.options.className) {
-      var spiderfiedClassName = this._group.options.className;
-
+    if (options.spiderfiedClassName) {
       for (var chmi in childMarkers) {
         var marker = childMarkers[chmi]; // marker
 
@@ -34,13 +33,19 @@ L.MarkerCluster.include({
           var icon = marker.getIcon();
 
           if (icon) {
-            icon.options.className = icon.options.className + ' ' + spiderfiedClassName;
+            if (icon.options.className) {
+              if (!icon.options.className.includes(options.spiderfiedClassName)) {
+                icon.options.className += ' ' + options.spiderfiedClassName;
+              }
+            } else {
+              icon.options.className = options.spiderfiedClassName;
+            }
           } //circleMarker
 
         } else if (childMarkers[chmi].setStyle) {
           var classNames = childMarkers[chmi].options.className;
           childMarkers[chmi].setStyle({
-            className: classNames + ' ' + spiderfiedClassName
+            className: classNames + ' ' + options.spiderfiedClassName
           });
         }
       }
