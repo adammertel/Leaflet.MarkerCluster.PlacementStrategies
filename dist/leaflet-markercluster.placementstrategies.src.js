@@ -7,6 +7,14 @@
 "use strict";
 
 /*global L:true*/
+L.MarkerClusterGroup.include({
+  _noanimationUnspiderfy: function _noanimationUnspiderfy() {
+    if (this._spiderfied) {
+      //this._spiderfied._noanimationUnspiderfy();
+      this._spiderfied.unspiderfy();
+    }
+  }
+});
 L.MarkerCluster.include({
   spiderfy: function spiderfy() {
     var group = this._group;
@@ -99,17 +107,15 @@ L.MarkerCluster.include({
     this._animationSpiderfy(childMarkers, positions);
   },
   unspiderfy: function unspiderfy(zoomDetails) {
-    /// <param Name="zoomDetails">Argument from zoomanim if being called in a zoom animation or null otherwise</param>
+    // remove _supportiveGeometries from map
+    this._removeClockHelpingCircles(); /// <param Name="zoomDetails">Argument from zoomanim if being called in a zoom animation or null otherwise</param>
+
+
     if (this._group._inZoomAnimation) {
       return;
     }
 
-    this._animationUnspiderfy(zoomDetails); // remove _supportiveGeometries from map
-
-
-    if (this._group.options.helpingCircles) {
-      this._removeClockHelpingCircles(this._group._featureGroup);
-    }
+    this._animationUnspiderfy(zoomDetails);
 
     this._group._spiderfied = null;
   },
@@ -218,7 +224,6 @@ L.MarkerCluster.include({
         options.clockHelpingCircleOptions.fillColor = 'none';
       }
 
-      console.log(options.clockHelpingCircleOptions);
       L.extend(clockCircleStyle, options.clockHelpingCircleOptions);
       var clockCircle = new L.CircleMarker(group._map.layerPointToLatLng(center), clockCircleStyle);
 
@@ -323,8 +328,11 @@ L.MarkerCluster.include({
     return res;
   },
   _removeClockHelpingCircles: function _removeClockHelpingCircles(fg) {
-    for (var hg in this._clockHelpingGeometries) {
-      fg.removeLayer(this._clockHelpingGeometries[hg]);
+    if (this._group.options.helpingCircles) {
+      for (var hg in this._clockHelpingGeometries) {
+        var featureGroup = this._group._featureGroup;
+        featureGroup.removeLayer(this._clockHelpingGeometries[hg]);
+      }
     }
   },
   _getOriginalLocations: function _getOriginalLocations(childMarkers, map) {
