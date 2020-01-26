@@ -9,18 +9,19 @@
 /*global L:true*/
 L.MarkerCluster.include({
   spiderfy: function spiderfy() {
-    if (this._group._spiderfied === this || this._group._inZoomAnimation) {
+    var group = this._group;
+    var options = group.options;
+
+    if (group._spiderfied === this || group._inZoomAnimation) {
       return;
     }
 
-    var options = this._group.options;
     var childMarkers = this.getAllChildMarkers();
-    var group = this._group;
     var map = group._map;
     var center = map.latLngToLayerPoint(this._latlng);
     var positions = [];
 
-    if (!(this._group.getLayers()[0] instanceof L.CircleMarker)) {
+    if (!(group.getLayers()[0] instanceof L.CircleMarker)) {
       center.y += 10;
     } // add options.spiderfiedClassName to the spiderfied markers
 
@@ -51,13 +52,13 @@ L.MarkerCluster.include({
       }
     }
 
-    this._group._unspiderfy();
+    group._unspiderfy();
 
-    this._group._spiderfied = this;
+    group._spiderfied = this;
     this._clockHelpingGeometries = []; // TODO Maybe: childMarkers order by distance to center
     // applies chosen placement strategy
 
-    switch (this._group.options.elementsPlacementStrategy) {
+    switch (options.elementsPlacementStrategy) {
       case 'default':
         if (childMarkers.length >= this._circleSpiralSwitchover) {
           positions = this._generatePointsSpiral(childMarkers.length, center);
@@ -88,11 +89,11 @@ L.MarkerCluster.include({
         break;
 
       case 'original-locations':
-        positions = this._getOriginalLocations(childMarkers, this._group._map);
+        positions = this._getOriginalLocations(childMarkers, group._map);
         break;
 
       default:
-        console.log('!!unknown placement strategy value. Allowed strategy names are : "default", "spiral", "one-circle", "concentric", "clock" and "clock-concentric" ');
+        console.log('!!unknown placement strategy value. Allowed strategy names are : "default", "spiral", "one-circle", "concentric", "clock", "clock-concentric" and "original-locations" ');
     }
 
     this._animationSpiderfy(childMarkers, positions);
@@ -161,14 +162,15 @@ L.MarkerCluster.include({
   // regularFirstCicle parameter - true if first elements in the first circle are placed regularly
   _generatePointsClocksCircles: function _generatePointsClocksCircles(count, centerPt, regularFirstCircle) {
     var res = [];
-    var fce = this._group.options.firstCircleElements;
+    var options = this._group.options;
+    var fce = options.firstCircleElements;
     var baseDistance = this._circleFootSeparation * 1.5,
         // offset of the first circle
-    dm = this._group.options.spiderfyDistanceMultiplier,
+    dm = options.spiderfyDistanceMultiplier,
         // multiplier of the offset for a next circle
-    distanceSurplus = this._group.options.spiderfyDistanceSurplus,
+    distanceSurplus = options.spiderfyDistanceSurplus,
         // multiplier of the offset for a next circle
-    elementsMultiplier = this._group.options.elementsMultiplier; // multiplier of number of elements in the next circle
+    elementsMultiplier = options.elementsMultiplier; // multiplier of number of elements in the next circle
 
     var iCircleNumber = 1,
         iCircleNoElements = fce,
@@ -204,20 +206,23 @@ L.MarkerCluster.include({
   },
   // method for creating and storing helping circles for clock/concentric circles strategy
   _createHelpingCircle: function _createHelpingCircle(center, radius) {
-    if (this._group.options.helpingCircles) {
+    var group = this._group;
+    var options = group.options;
+
+    if (options.helpingCircles) {
       var clockCircleStyle = {
         radius: radius
       }; // keeping without fill if it is not defined
 
-      if (!this._group.options.clockHelpingCircleOptions.fill) {
-        this._group.options.clockHelpingCircleOptions.fillColor = 'none';
+      if (!options.clockHelpingCircleOptions.fill) {
+        options.clockHelpingCircleOptions.fillColor = 'none';
       }
 
-      console.log(this._group.options.clockHelpingCircleOptions);
-      L.extend(clockCircleStyle, this._group.options.clockHelpingCircleOptions);
-      var clockCircle = new L.CircleMarker(this._group._map.layerPointToLatLng(center), clockCircleStyle);
+      console.log(options.clockHelpingCircleOptions);
+      L.extend(clockCircleStyle, options.clockHelpingCircleOptions);
+      var clockCircle = new L.CircleMarker(group._map.layerPointToLatLng(center), clockCircleStyle);
 
-      this._group._featureGroup.addLayer(clockCircle);
+      group._featureGroup.addLayer(clockCircle);
 
       this._clockHelpingGeometries.push(clockCircle);
     }
@@ -227,15 +232,16 @@ L.MarkerCluster.include({
   _generatePointsConcentricCircles: function _generatePointsConcentricCircles(count, centerPt) {
     var _this = this;
 
+    var options = this._group.options;
     var res = [];
-    var fce = this._group.options.firstCircleElements,
+    var fce = options.firstCircleElements,
         baseDistance = this._circleFootSeparation * 1.5,
         // offset of the first circle
-    dm = this._group.options.spiderfyDistanceMultiplier,
+    dm = options.spiderfyDistanceMultiplier,
         // multiplier of the offset for a next circle
-    elementsMultiplier = this._group.options.elementsMultiplier,
+    elementsMultiplier = options.elementsMultiplier,
         // multiplier of number of elements in the next circle
-    distanceSurplus = this._group.options.spiderfyDistanceSurplus,
+    distanceSurplus = options.spiderfyDistanceSurplus,
         // multiplier of the offset for a next circle
     secondCircleElements = Math.round(fce * elementsMultiplier); // number of elements in the second circle
 
