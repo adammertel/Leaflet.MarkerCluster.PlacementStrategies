@@ -2,7 +2,7 @@
 **subplugin for the [Leaflet.MarkerCluster](https://github.com/Leaflet/Leaflet.markercluster) that implements new possibilities how to place clustered chidren markers**
 
 ### How to use:
-1. include Leaflet and Leaflet.MarkerCluster libraries (cdnjs, ungkg, npm install, ...)
+1. include Leaflet and Leaflet.MarkerCluster libraries (cdnjs, ungkg, npm install...)
 
 2. download and include built [leaflet-markercluster.placementstrategies.js](https://github.com/adammertel/Leaflet.MarkerCluster.PlacementStrategies/blob/master/dist/leaflet-markercluster.placementstrategies.js) or [leaflet-markercluster.placementstrategies.src.js](https://github.com/adammertel/Leaflet.MarkerCluster.PlacementStrategies/blob/master/dist/leaflet-markercluster.placementstrategies.src.js) file from dist folder.
 
@@ -74,6 +74,7 @@ new type geometry called "helpingCircle" is added and can be used for the last t
 
 ### Options
  * **elementsPlacementStrategy** (default value 'clock-concentric') - defines the strategy for placing markers in cluster, see above
+ * **spiderfiedClassName** (default value false) - if a value of type string is defined, the code will assign this value to the spiderfied markers
 
 
 
@@ -92,7 +93,7 @@ new type geometry called "helpingCircle" is added and can be used for the last t
 
 ### Notes:
  - this subplugin was not tested with the animations turned on
- - circleMarkers should be prefered to markers
+ - circleMarkers should be preferred to markers
 
 
 ### Demo:
