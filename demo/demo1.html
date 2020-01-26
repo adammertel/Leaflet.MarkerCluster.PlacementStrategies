@@ -22,7 +22,7 @@
       type="text/javascript"
       src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js"
     ></script>
-    <scripté
+    <script
       type="text/javascript"
       src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/leaflet.markercluster.js"
     ></script>
@@ -54,11 +54,10 @@
       top: 2%;
       right: 2%;
       z-index: 999;
-      padding-left: 15px;
+      padding: 2em;
       opacity: 0.9;
-      border: 15px solid white;
-      border-opacity: 0;
       font-size: 80%;
+      overflow-y: scroll;
     }
 
     .marker-cluster {
@@ -81,6 +80,11 @@
 
     select {
       margin-left: 5px;
+      background-color: deepskyblue;
+      color: black;
+      border: 0px solid black;
+      font-family: monospace;
+      font-size: 12px;
     }
   </style>
 
@@ -116,13 +120,45 @@
         <option value="EsriWorldImagery">ESRI satellite</option>
       </select>
 
-      <h4>ELEMENTS</h4>
-
       <p class="select-row">shapes:</p>
       <select id="elms-shape-select">
         <option value="circle" selected>circle</option>
         <option value="marker">marker</option>
       </select>
+
+
+      <h4>MARKERCLUSTER</h4>
+      <p class="select-row">showCoverageOnHover:</p>
+      <select id="showCoverageOnHover-select">
+        <option value="true" selected>true</option>
+        <option value="false">false</option>
+      </select>
+      <p class="select-row">spiderfyOnMaxZoom:</p>
+      <select id="spiderfyOnMaxZoom-select">
+        <option value="true" selected>true</option>
+        <option value="false">false</option>
+      </select>
+      <p class="select-row">zoomToBoundsOnClick:</p>
+      <select id="zoomToBoundsOnClick-select">
+        <option value="true" selected>true</option>
+        <option value="false">false</option>
+      </select>
+      <p class="select-row">maxClusterRadius:</p>
+      <select id="maxClusterRadius-select">
+        <option value="20">20</option>
+        <option value="30">30</option>
+        <option value="40">40</option>
+        <option value="50">50</option>
+        <option value="60">60</option>
+        <option value="70">70</option>
+        <option value="80" selected>80</option>
+        <option value="100">100</option>
+        <option value="120">120</option>
+        <option value="150">150</option>
+      </select>
+
+      <h4>ELEMENTS</h4>
+
 
       <p class="select-row">spiderfyDistanceSurplus:</p>
       <select id="elms-surplus-select">
@@ -259,7 +295,7 @@
       var mapPosition = [(maxX + minX) / 2, (maxY + minY) / 2];
 
       // creating random data
-      var noTestData = 7000;
+      var noTestData = 20000;
       var data = [];
       for (var i = 0; i < noTestData; i++) {
         data.push({
@@ -329,7 +365,7 @@
           map.remove();
         }
 
-        map = L.map("map-content", { maxZoom: 14 }).setView(
+        map = L.map("map-content", { maxZoom: 15 }).setView(
           mapPosition,
           mapZoom
         );
@@ -342,14 +378,22 @@
 
         baseTiles.addTo(map);
 
+
         var options = {
           spiderLegPolylineOptions: { weight: 0 },
+          spiderfyOnMaxZoom: $('#spiderfyOnMaxZoom-select').val() === "true",
+          zoomToBoundsOnClick: $('#zoomToBoundsOnClick-select').val() === "true",
+          showCoverageOnHover: $('#showCoverageOnHover-select').val() === "true",
+          maxClusterRadius: parseInt($('#maxClusterRadius-select').val()),
+          
           clockHelpingCircleOptions: {
             weight: $("#hcircle-weight-select").val(),
             opacity: $("#hcircle-opacity-select").val(),
             color: $("#hcircle-color-select").val(),
             dashArray: $("#hcircle-style-select").val()
           },
+
+          spiderfiedClassName: 'spiderfied-marker',
 
           helpingCircles: $("#hcircle-turn-select").val() === "true",
           elementsPlacementStrategy: $("#strategy-select").val(),
