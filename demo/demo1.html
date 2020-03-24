@@ -1,6 +1,6 @@
 <html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-16" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.css"
@@ -126,7 +126,6 @@
         <option value="marker">marker</option>
       </select>
 
-
       <h4>MARKERCLUSTER</h4>
       <p class="select-row">showCoverageOnHover:</p>
       <select id="showCoverageOnHover-select">
@@ -158,7 +157,6 @@
       </select>
 
       <h4>ELEMENTS</h4>
-
 
       <p class="select-row">spiderfyDistanceSurplus:</p>
       <select id="elms-surplus-select">
@@ -365,10 +363,9 @@
           map.remove();
         }
 
-        map = L.map("map-content", { maxZoom: 15 }).setView(
-          mapPosition,
-          mapZoom
-        );
+        map = L.map("map-content", {
+          maxZoom: 15
+        }).setView(mapPosition, mapZoom);
         map.on("zoomend", function() {
           mapZoom = map.getZoom();
         });
@@ -378,14 +375,15 @@
 
         baseTiles.addTo(map);
 
-
         var options = {
           spiderLegPolylineOptions: { weight: 0 },
-          spiderfyOnMaxZoom: $('#spiderfyOnMaxZoom-select').val() === "true",
-          zoomToBoundsOnClick: $('#zoomToBoundsOnClick-select').val() === "true",
-          showCoverageOnHover: $('#showCoverageOnHover-select').val() === "true",
-          maxClusterRadius: parseInt($('#maxClusterRadius-select').val()),
-          
+          spiderfyOnMaxZoom: $("#spiderfyOnMaxZoom-select").val() === "true",
+          zoomToBoundsOnClick:
+            $("#zoomToBoundsOnClick-select").val() === "true",
+          showCoverageOnHover:
+            $("#showCoverageOnHover-select").val() === "true",
+          maxClusterRadius: parseInt($("#maxClusterRadius-select").val()),
+
           clockHelpingCircleOptions: {
             weight: $("#hcircle-weight-select").val(),
             opacity: $("#hcircle-opacity-select").val(),
@@ -393,7 +391,7 @@
             dashArray: $("#hcircle-style-select").val()
           },
 
-          spiderfiedClassName: 'spiderfied-marker',
+          spiderfiedClassName: "spiderfied-marker",
 
           helpingCircles: $("#hcircle-turn-select").val() === "true",
           elementsPlacementStrategy: $("#strategy-select").val(),
