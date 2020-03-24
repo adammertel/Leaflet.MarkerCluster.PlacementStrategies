@@ -1,44 +1,44 @@
 {
-  "name": "leaflet.markercluster.placementstrategies",
-  "version": "0.2.1",
-  "description": "leaflet.markercluster subplugin that defines more strategies to place clustered markers",
-  "keywords": [
-    "leaflet",
-    "markercluster",
-    "placement",
-    "clustering"
-  ],
-  "author": "Adam Mertel, University of Vienna",
-  "contributors": [
-    "kuuup-at-work"
-  ],
-  "license": "ISC",
-  "main": "dist/leaflet-markercluster.placementstrategies.js",
-  "devDependencies": {
-    "@babel/cli": "^7.8.4",
-    "@babel/core": "^7.8.3",
-    "@babel/preset-env": "^7.8.3",
-    "babel-plugin-minify-mangle-names": "^0.5.0",
-    "babel-plugin-transform-remove-console": "^6.9.4",
-    "concat-cli": "^4.0.0",
-    "mkdirp": "^1.0.3",
-    "npm-run-all": "^4.1.5",
-    "onchange": "^6.1.0"
-  },
-  "files": [
-    "dist",
-    "src",
-    "demo"
-  ],
-  "scripts": {
-    "banners": "run-s banner-js-src banner-js",
-    "banner-js-src": "concat-cli -f banner dist/leaflet-markercluster.placementstrategies.src.js -o dist/leaflet-markercluster.placementstrategies.src.js",
-    "banner-js": "concat-cli -f banner dist/leaflet-markercluster.placementstrategies.js -o dist/leaflet-markercluster.placementstrategies.js",
-    "create-dist-folder": "mkdirp dist",
-    "babel": "babel src --out-file dist/leaflet-markercluster.placementstrategies.src.js",
-    "minify": "babel --plugins=transform-remove-console,minify-mangle-names dist/leaflet-markercluster.placementstrategies.src.js --out-file dist/leaflet-markercluster.placementstrategies.js --minified",
-    "onchange": "onchange src/**/*.js -- npm run build",
-    "build": "run-s create-dist-folder babel minify banners",
-    "start": "run-p create-dist-folder onchange build"
-  }
+	"name": "leaflet.markercluster.placementstrategies",
+	"version": "0.2.0",
+	"description": "leaflet.markercluster subplugin that defines more strategies to place clustered markers",
+	"keywords": [
+		"leaflet",
+		"markercluster",
+		"placement",
+		"clustering"
+	],
+	"author": "Adam Mertel, University of Vienna",
+	"contributors": [
+		"kuuup-at-work"
+	],
+	"license": "ISC",
+	"main": "dist/leaflet-markercluster.placementstrategies.js",
+	"devDependencies": {
+		"@babel/cli": "^7.8.4",
+		"@babel/core": "^7.8.3",
+		"@babel/preset-env": "^7.8.3",
+		"babel-plugin-minify-mangle-names": "^0.5.0",
+		"babel-plugin-transform-remove-console": "^6.9.4",
+		"concat-cli": "^4.0.0",
+		"mkdirp": "^1.0.3",
+		"npm-run-all": "^4.1.5",
+		"onchange": "^6.1.0"
+	},
+	"files": [
+		"dist",
+		"src",
+		"demo"
+	],
+	"scripts": {
+		"banners": "run-s banner-js-src banner-js",
+		"banner-js-src": "concat-cli -f banner dist/leaflet-markercluster.placementstrategies.src.js -o dist/leaflet-markercluster.placementstrategies.src.js",
+		"banner-js": "concat-cli -f banner dist/leaflet-markercluster.placementstrategies.js -o dist/leaflet-markercluster.placementstrategies.js",
+		"create-dist-folder": "mkdirp dist",
+		"babel": "babel src --out-file dist/leaflet-markercluster.placementstrategies.src.js",
+		"minify": "babel --plugins=transform-remove-console,minify-mangle-names dist/leaflet-markercluster.placementstrategies.src.js --out-file dist/leaflet-markercluster.placementstrategies.js --minified",
+		"onchange": "onchange src/**/*.js -- npm run build",
+		"build": "run-s create-dist-folder babel minify banners",
+		"start": "run-p create-dist-folder onchange build"
+	}
 }

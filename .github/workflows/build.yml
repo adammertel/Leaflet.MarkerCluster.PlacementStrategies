@@ -7,6 +7,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@master
       - name: use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
