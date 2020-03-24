@@ -1,7 +1,13 @@
 # Leaflet.MarkerCluster.PlacementStrategies
+
 **subplugin for the [Leaflet.MarkerCluster](https://github.com/Leaflet/Leaflet.markercluster) that implements new possibilities how to place clustered chidren markers**
 
-### How to use:
+## Demo:
+
+[random data demo](https://adammertel.github.io/Leaflet.MarkerCluster.PlacementStrategies/demo/demo1.html)
+
+## How to use:
+
 1. include Leaflet and Leaflet.MarkerCluster libraries (cdnjs, ungkg, npm install...)
 
 2. download and include built [leaflet-markercluster.placementstrategies.js](https://github.com/adammertel/Leaflet.MarkerCluster.PlacementStrategies/blob/master/dist/leaflet-markercluster.placementstrategies.js) or [leaflet-markercluster.placementstrategies.src.js](https://github.com/adammertel/Leaflet.MarkerCluster.PlacementStrategies/blob/master/dist/leaflet-markercluster.placementstrategies.src.js) file from dist folder.
@@ -33,68 +39,63 @@ for (var i = 0; i < 10000; i++) {
 map.addLayer(markers);
 ```
 
+## How to build:
 
-### How to build:
 1. install npm modules `npm install`
 2. run build command `npm run build`
 
 `npm start` will watch and build on changes
 
+## Placement Strategies
 
-### Placement Strategies
-* **default** - one-circle strategy (up to 8 elements*, else spiral strategy)
-* **spiral** - snail/spiral placement
+- **default** - one-circle strategy (up to 8 elements\*, else spiral strategy)
+- **spiral** - snail/spiral placement
 
-    ![image](https://raw.githubusercontent.com/adammertel/Leaflet.MarkerCluster.PlacementStrategies/master/assets/img_strategy_spiral.png)
+  ![image](https://raw.githubusercontent.com/adammertel/Leaflet.MarkerCluster.PlacementStrategies/master/assets/img_strategy_spiral.png)
 
-* **one-circle** - put all the elements into one circle
+- **one-circle** - put all the elements into one circle
 
-    ![image](https://raw.githubusercontent.com/adammertel/Leaflet.MarkerCluster.PlacementStrategies/master/assets/img_strategy_onecircle.png)
+  ![image](https://raw.githubusercontent.com/adammertel/Leaflet.MarkerCluster.PlacementStrategies/master/assets/img_strategy_onecircle.png)
 
-* **concentric** - elements are placed automatically into concentric circles, there is a maximum of 4 circles
+- **concentric** - elements are placed automatically into concentric circles, there is a maximum of 4 circles
 
-    ![image](https://raw.githubusercontent.com/adammertel/Leaflet.MarkerCluster.PlacementStrategies/master/assets/img_strategy_concentric.png)
+  ![image](https://raw.githubusercontent.com/adammertel/Leaflet.MarkerCluster.PlacementStrategies/master/assets/img_strategy_concentric.png)
 
-* **clock** - fills circles around the cluster marker in the style of clocks
+- **clock** - fills circles around the cluster marker in the style of clocks
 
-    ![image](https://raw.githubusercontent.com/adammertel/Leaflet.MarkerCluster.PlacementStrategies/master/assets/img_strategy_clock.png)
+  ![image](https://raw.githubusercontent.com/adammertel/Leaflet.MarkerCluster.PlacementStrategies/master/assets/img_strategy_clock.png)
 
-* **clock-concentric** - in the case of one circle, elements are places based on the concentric style, more circles are dislocated in the clock style
+- **clock-concentric** - in the case of one circle, elements are places based on the concentric style, more circles are dislocated in the clock style
 
-* **original-locations** - elements are placed at their original locations
+- **original-locations** - elements are placed at their original locations
 
-    ![image](https://raw.githubusercontent.com/adammertel/Leaflet.MarkerCluster.PlacementStrategies/master/assets/img_strategy_original.png)
+  ![image](https://raw.githubusercontent.com/adammertel/Leaflet.MarkerCluster.PlacementStrategies/master/assets/img_strategy_original.png)
 
-**can be changed - _circleSpiralSwitchover variable in the original markerCluster code*  
+\*_can be changed - \_circleSpiralSwitchover variable in the original markerCluster code_
 
+## Helping Circles
 
-### Helping Circles
 new type geometry called "helpingCircle" is added and can be used for the last three strategies to make the cluster more visually-consistent.
 
+## Options
 
-### Options
- * **elementsPlacementStrategy** (default value 'clock-concentric') - defines the strategy for placing markers in cluster, see above
- * **spiderfiedClassName** (default value false) - if a value of type string is defined, the code will assign this value to the spiderfied markers
+- **elementsPlacementStrategy** (default value 'clock-concentric') - defines the strategy for placing markers in cluster, see above
+- **spiderfiedClassName** (default value false) - if a value of type string is defined, the code will assign this value to the spiderfied markers
 
+### Options that are valid for placement strategies 'concentric', 'clock' and 'clock-concentric'
 
+- **firstCircleElements** (default value **10**) - number of elements in the first circle
 
-#### Options that are valid for placement strategies 'concentric', 'clock' and 'clock-concentric'
+- **elementsMultiplier** (default value **1.5**) - multiplicator of elements number in the next circle
 
- * **firstCircleElements** (default value **10**) - number of elements in the first circle
+- **spiderfyDistanceSurplus** (default value **30**) - value to be added to each new circle distance
 
- * **elementsMultiplier** (default value **1.5**) - multiplicator of elements number in the next circle
+- **helpingCircles** (default value **true**) - will draw helping circles
 
- * **spiderfyDistanceSurplus** (default value **30**) - value to be added to each new circle distance
+- **helpingCircleOptions** (default value **{ fillOpacity: 0, color: 'grey', weight: 0.6 }** ) - possibility to specify helpingCircle style
 
- * **helpingCircles** (default value **true**) - will draw helping circles
+## Notes:
 
- * **helpingCircleOptions** (default value **{ fillOpacity: 0, color: 'grey', weight: 0.6 }** ) - possibility to specify helpingCircle style
-
-
-### Notes:
- - this subplugin was not tested with the animations turned on
- - circleMarkers should be preferred to markers
-
-
-### Demo:
-[random data demo](https://adammertel.github.io/Leaflet.MarkerCluster.PlacementStrategies/demo/demo1.html)
+- this subplugin was not tested with the animations turned on (`animation` and `animateAddingMarkers` variables)
+- `circleMarkers` should be preferred to markers
+- use with `L.SVG` renderer if possible (`L.Canvas` renderer has some technical issues with some visual properties, see [#6](https://github.com/adammertel/Leaflet.MarkerCluster.PlacementStrategies/issues/6))
