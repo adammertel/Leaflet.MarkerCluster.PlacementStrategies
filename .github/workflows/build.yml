@@ -1,0 +1,25 @@
+name: creating builds on push
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: build
+        run: |
+          npm run build
+      - name: commit builds
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          gít add .
+          git commit -m "ACTION: builds recreated"
+      - name: push builds
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.ACTION_PUSH_BUILD }}
+          force: true
+        env:
+          CI: true
