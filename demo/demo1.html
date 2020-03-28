@@ -385,8 +385,8 @@
           maxClusterRadius: parseInt($("#maxClusterRadius-select").val()),
 
           clockHelpingCircleOptions: {
-            weight: $("#hcircle-weight-select").val(),
-            opacity: $("#hcircle-opacity-select").val(),
+            weight: parseFloat($("#hcircle-weight-select").val()),
+            opacity: parseFloat($("#hcircle-opacity-select").val()),
             color: $("#hcircle-color-select").val(),
             dashArray: $("#hcircle-style-select").val()
           },
