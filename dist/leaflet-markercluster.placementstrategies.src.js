@@ -28,11 +28,13 @@ L.MarkerCluster.include({
     var map = group._map;
     var center = map.latLngToLayerPoint(this._latlng);
     var positions = [];
-
+    /*
     if (!(group.getLayers()[0] instanceof L.CircleMarker)) {
-      center.y += 10;
-    } // add options.spiderfiedClassName to the spiderfied markers
+    center.y += 10;
+    }
+    */
 
+    console.log(group.getLayers()[0]); // add options.spiderfiedClassName to the spiderfied markers
 
     if (options.spiderfiedClassName) {
       for (var chmi in childMarkers) {
@@ -44,7 +46,7 @@ L.MarkerCluster.include({
           if (icon) {
             if (icon.options.className) {
               if (!icon.options.className.includes(options.spiderfiedClassName)) {
-                icon.options.className += ' ' + options.spiderfiedClassName;
+                icon.options.className += " " + options.spiderfiedClassName;
               }
             } else {
               icon.options.className = options.spiderfiedClassName;
@@ -54,7 +56,7 @@ L.MarkerCluster.include({
         } else if (childMarkers[chmi].setStyle) {
           var classNames = childMarkers[chmi].options.className;
           childMarkers[chmi].setStyle({
-            className: classNames + ' ' + options.spiderfiedClassName
+            className: classNames + " " + options.spiderfiedClassName
           });
         }
       }
@@ -67,7 +69,7 @@ L.MarkerCluster.include({
     // applies chosen placement strategy
 
     switch (options.elementsPlacementStrategy) {
-      case 'default':
+      case "default":
         if (childMarkers.length >= this._circleSpiralSwitchover) {
           positions = this._generatePointsSpiral(childMarkers.length, center);
         } else {
@@ -76,27 +78,27 @@ L.MarkerCluster.include({
 
         break;
 
-      case 'spiral':
+      case "spiral":
         positions = this._generatePointsSpiral(childMarkers.length, center);
         break;
 
-      case 'one-circle':
+      case "one-circle":
         positions = this._generatePointsCircle(childMarkers.length, center);
         break;
 
-      case 'concentric':
+      case "concentric":
         positions = this._generatePointsConcentricCircles(childMarkers.length, center);
         break;
 
-      case 'clock':
+      case "clock":
         positions = this._generatePointsClocksCircles(childMarkers.length, center, false);
         break;
 
-      case 'clock-concentric':
+      case "clock-concentric":
         positions = this._generatePointsClocksCircles(childMarkers.length, center, true);
         break;
 
-      case 'original-locations':
+      case "original-locations":
         positions = this._getOriginalLocations(childMarkers, group._map);
         break;
 
@@ -132,6 +134,8 @@ L.MarkerCluster.include({
       angle = this._circleStartAngle + i * angleStep;
       res[i] = new L.Point(centerPt.x + legLength * Math.cos(angle), centerPt.y + legLength * Math.sin(angle))._round();
     }
+
+    this._createHelpingCircle(centerPt, legLength);
 
     return res;
   },
@@ -221,7 +225,7 @@ L.MarkerCluster.include({
       }; // keeping without fill if it is not defined
 
       if (!options.clockHelpingCircleOptions.fill) {
-        options.clockHelpingCircleOptions.fillColor = 'none';
+        options.clockHelpingCircleOptions.fillColor = "none";
       }
 
       L.extend(clockCircleStyle, options.clockHelpingCircleOptions);
@@ -369,7 +373,7 @@ L.MarkerClusterGroup.include({
     // 'concentric' - elements are placed automatically into concentric circles, there is a maximum of 4 circles
     // 'clock' - fills circles around the cluster marker in the style of clocks
     // 'clock-concentric' - in case of one circle, elements are places based on the concentric style, more circles are in clock style
-    elementsPlacementStrategy: 'clock-concentric',
+    elementsPlacementStrategy: "clock-concentric",
     // Options that are valid for placement strategies 'concentric', 'clock' and 'clock-concentric'
     // Number of elements in the first circle
     firstCircleElements: 10,
@@ -381,8 +385,8 @@ L.MarkerClusterGroup.include({
     helpingCircles: true,
     // Possibility to specify helpingCircle style
     clockHelpingCircleOptions: {
-      color: 'grey',
-      dashArray: 5,
+      color: "grey",
+      dashArray: "5",
       fillOpacity: 0,
       opacity: 0.5,
       weight: 3
@@ -399,7 +403,7 @@ L.MarkerClusterGroup.include({
     // Make it possible to specify a polyline options on a spider leg
     spiderLegPolylineOptions: {
       weight: 1.5,
-      color: '#222',
+      color: "#222",
       opacity: 0.5
     },
     // When bulk adding layers, adds markers in chunks. Means addLayers may not add all the layers in the call, others will be loaded during setTimeouts

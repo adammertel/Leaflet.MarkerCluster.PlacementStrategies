@@ -5,7 +5,11 @@
   Adam Mertel | univie
 */
 "use strict";/*global L:true*/L.MarkerClusterGroup.include({_noanimationUnspiderfy:function a(){if(this._spiderfied){//this._spiderfied._noanimationUnspiderfy();
-this._spiderfied.unspiderfy()}}});L.MarkerCluster.include({spiderfy:function a(){var b=this._group;var c=b.options;if(b._spiderfied===this||b._inZoomAnimation){return}var d=this.getAllChildMarkers();var e=b._map;var f=e.latLngToLayerPoint(this._latlng);var g=[];if(!(b.getLayers()[0]instanceof L.CircleMarker)){f.y+=10}// add options.spiderfiedClassName to the spiderfied markers
+this._spiderfied.unspiderfy()}}});L.MarkerCluster.include({spiderfy:function a(){var b=this._group;var c=b.options;if(b._spiderfied===this||b._inZoomAnimation){return}var d=this.getAllChildMarkers();var e=b._map;var f=e.latLngToLayerPoint(this._latlng);var g=[];/*
+    if (!(group.getLayers()[0] instanceof L.CircleMarker)) {
+    center.y += 10;
+    }
+    */ // add options.spiderfiedClassName to the spiderfied markers
 if(c.spiderfiedClassName){for(var h in d){var i=d[h];// marker
 if(i.getIcon){var j=i.getIcon();if(j){if(j.options.className){if(!j.options.className.includes(c.spiderfiedClassName)){j.options.className+=" "+c.spiderfiedClassName}}else{j.options.className=c.spiderfiedClassName}}//circleMarker
 }else if(d[h].setStyle){var k=d[h].options.className;d[h].setStyle({className:k+" "+c.spiderfiedClassName})}}}b._unspiderfy();b._spiderfied=this;this._clockHelpingGeometries=[];// TODO Maybe: childMarkers order by distance to center
@@ -13,7 +17,7 @@ if(i.getIcon){var j=i.getIcon();if(j){if(j.options.className){if(!j.options.clas
 switch(c.elementsPlacementStrategy){case"default":if(d.length>=this._circleSpiralSwitchover){g=this._generatePointsSpiral(d.length,f)}else{g=this._generatePointsCircle(d.length,f)}break;case"spiral":g=this._generatePointsSpiral(d.length,f);break;case"one-circle":g=this._generatePointsCircle(d.length,f);break;case"concentric":g=this._generatePointsConcentricCircles(d.length,f);break;case"clock":g=this._generatePointsClocksCircles(d.length,f,false);break;case"clock-concentric":g=this._generatePointsClocksCircles(d.length,f,true);break;case"original-locations":g=this._getOriginalLocations(d,b._map);break;default:}this._animationSpiderfy(d,g)},unspiderfy:function a(b){// remove _supportiveGeometries from map
 this._removeClockHelpingCircles();/// <param Name="zoomDetails">Argument from zoomanim if being called in a zoom animation or null otherwise</param>
 if(this._group._inZoomAnimation){return}this._animationUnspiderfy(b);this._group._spiderfied=null},_generatePointsCircle:function a(b,c){var d=this._group.options.spiderfyDistanceMultiplier*this._circleFootSeparation*(2+b),e=d/this._2PI,//radius from circumference
-f=this._2PI/b,g=[];var h,j;g.length=b;for(h=b-1;h>=0;h--){j=this._circleStartAngle+h*f;g[h]=new L.Point(c.x+e*Math.cos(j),c.y+e*Math.sin(j))._round()}return g},_generatePointsSpiral:function a(b,c){var d=this._group.options.spiderfyDistanceMultiplier,e=d*this._spiralFootSeparation,f=d*this._spiralLengthFactor*this._2PI,g=[];var h,j=0;var k=d*this._spiralLengthStart;g.length=b;// Higher index, closer position to cluster center.
+f=this._2PI/b,g=[];var h,j;g.length=b;for(h=b-1;h>=0;h--){j=this._circleStartAngle+h*f;g[h]=new L.Point(c.x+e*Math.cos(j),c.y+e*Math.sin(j))._round()}this._createHelpingCircle(c,e);return g},_generatePointsSpiral:function a(b,c){var d=this._group.options.spiderfyDistanceMultiplier,e=d*this._spiralFootSeparation,f=d*this._spiralLengthFactor*this._2PI,g=[];var h,j=0;var k=d*this._spiralLengthStart;g.length=b;// Higher index, closer position to cluster center.
 for(h=b-1;h>=0;h--){j+=e/k+h*0.0005;g[h]=new L.Point(c.x+k*Math.cos(j),c.y+k*Math.sin(j))._round();k+=f/j}return g},// auxiliary method - returns placement of vertex of given regular n-side polygon
 _regularPolygonVertexPlacement:function a(b,c,d,e){var f=this._2PI/c;var g=f*b;// in case of two vertices, right-left placement is more estetic
 if(c!==2){g-=1.6}return new L.Point(d.x+Math.cos(g)*e,d.y+Math.sin(g)*e)._round()},// clock strategy placement.
@@ -60,7 +64,7 @@ firstCircleElements:10,// multiplicator of elements number for the next circle
 elementsMultiplier:1.5,// Value to be added to each new circle
 spiderfyDistanceSurplus:30,// will draw additional helping circles
 helpingCircles:true,// Possibility to specify helpingCircle style
-clockHelpingCircleOptions:{color:"grey",dashArray:5,fillOpacity:0,opacity:0.5,weight:3},// Set to false to disable all animations (zoom and spiderfy).
+clockHelpingCircleOptions:{color:"grey",dashArray:"5",fillOpacity:0,opacity:0.5,weight:3},// Set to false to disable all animations (zoom and spiderfy).
 // If false, option animateAddingMarkers below has no effect.
 // If L.DomUtil.TRANSITION is falsy, this option has no effect.
 animate:false,// Whether to animate adding markers after adding the MarkerClusterGroup to the map
