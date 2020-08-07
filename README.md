@@ -4,7 +4,7 @@
 
 ## Demo:
 
-[random data demo](https://adammertel.github.io/Leaflet.MarkerCluster.PlacementStrategies/demo/demo1.html)
+[random data demo](https://adammertel.github.io/Leaflet.MarkerCluster.PlacementStrategies/demo/random-data.html)
 
 ## How to use:
 
