@@ -5,11 +5,7 @@
   Adam Mertel | univie
 */
 "use strict";/*global L:true*/L.MarkerClusterGroup.include({_noanimationUnspiderfy:function a(){if(this._spiderfied){//this._spiderfied._noanimationUnspiderfy();
-this._spiderfied.unspiderfy()}}});L.MarkerCluster.include({spiderfy:function a(){var b=this._group;var c=b.options;if(b._spiderfied===this||b._inZoomAnimation){return}var d=this.getAllChildMarkers();var e=b._map;var f=e.latLngToLayerPoint(this._latlng);var g=[];/*
-    if (!(group.getLayers()[0] instanceof L.CircleMarker)) {
-    center.y += 10;
-    }
-    */ // add options.spiderfiedClassName to the spiderfied markers
+this._spiderfied.unspiderfy()}}});L.MarkerCluster.include({spiderfy:function a(){var b=this._group;var c=b.options;if(b._spiderfied===this||b._inZoomAnimation){return}var d=this.getAllChildMarkers();var e=b._map;var f=e.latLngToLayerPoint(this._latlng);var g=[];// add options.spiderfiedClassName to the spiderfied markers
 if(c.spiderfiedClassName){for(var h in d){var i=d[h];// marker
 if(i.getIcon){var j=i.getIcon();if(j){if(j.options.className){if(!j.options.className.includes(c.spiderfiedClassName)){j.options.className+=" "+c.spiderfiedClassName}}else{j.options.className=c.spiderfiedClassName}}//circleMarker
 }else if(d[h].setStyle){var k=d[h].options.className;d[h].setStyle({className:k+" "+c.spiderfiedClassName})}}}b._unspiderfy();b._spiderfied=this;this._clockHelpingGeometries=[];// TODO Maybe: childMarkers order by distance to center

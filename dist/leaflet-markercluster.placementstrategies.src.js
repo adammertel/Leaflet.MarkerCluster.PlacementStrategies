@@ -27,14 +27,7 @@ L.MarkerCluster.include({
     var childMarkers = this.getAllChildMarkers();
     var map = group._map;
     var center = map.latLngToLayerPoint(this._latlng);
-    var positions = [];
-    /*
-    if (!(group.getLayers()[0] instanceof L.CircleMarker)) {
-    center.y += 10;
-    }
-    */
-
-    console.log(group.getLayers()[0]); // add options.spiderfiedClassName to the spiderfied markers
+    var positions = []; // add options.spiderfiedClassName to the spiderfied markers
 
     if (options.spiderfiedClassName) {
       for (var chmi in childMarkers) {

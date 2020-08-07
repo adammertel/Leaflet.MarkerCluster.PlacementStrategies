@@ -23,13 +23,6 @@ L.MarkerCluster.include({
     const center = map.latLngToLayerPoint(this._latlng);
     let positions = [];
 
-    /*
-		if (!(group.getLayers()[0] instanceof L.CircleMarker)) {
-			center.y += 10;
-		}
-		*/
-    console.log(group.getLayers()[0]);
-
     // add options.spiderfiedClassName to the spiderfied markers
     if (options.spiderfiedClassName) {
       for (var chmi in childMarkers) {
